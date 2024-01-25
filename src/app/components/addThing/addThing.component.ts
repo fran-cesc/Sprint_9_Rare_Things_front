@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -9,34 +9,39 @@ import {
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValidatorsService } from '../../services/validators.service.js';
+import { ThingsService } from '../../services/things.service.js';
 
 @Component({
   selector: 'app-addThing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule ],
   templateUrl: './addThing.component.html',
   styleUrl: './addThing.component.css',
 })
 
 export class AddThingComponent {
 
+  public file: any;
+
+  //TODO correctly validate
   public thingForm: FormGroup = new FormGroup({
     user_name: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
     ]),
+    thing_title: new FormControl('', Validators.required),
     description: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-    ]),
-    image: new FormControl('', Validators.required),
-  });
+    ])
+    });
 
     constructor(
     private router: Router,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    private validatorsService: ValidatorsService
+    private validatorsService: ValidatorsService,
+    private thingsService: ThingsService
     ) {}
 
   // isValidField(field: string): boolean | null {
@@ -57,25 +62,42 @@ export class AddThingComponent {
   //   }
   //   return null;
   // }
+  onImageLoad(event: any){
+    this.file = event.target.files[0];
+  }
 
-  // addRunner(): void {
-  //   if (this.runnerForm.invalid) {
-  //     this.runnerForm.markAllAsTouched();
-  //     return;
-  //   }
+  addThing(): void {
+    // if (this.thingForm.invalid) {
+    //   this.thingForm.markAllAsTouched();
+    //   return;
+    // }
 
-  //   try {
-  //     this.raceService.addRunner(this.runnerForm.value).subscribe();
-  //     alert(`Runner ${this.runnerForm.value.first_name} ${this.runnerForm.value.last_name} added successfuly`);
-  //     this.runnerForm.reset();
-  //     this.activeModal.close();
-  //     window.location.reload();
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+    let fd = new FormData();
+    fd.append('image', this.file);
+    fd.append('user_name', this.thingForm.value.user_name);
+    fd.append('thing_title', this.thingForm.value.thing_title);
+    fd.append('description', this.thingForm.value.description);
 
-  // closeModal() {
-  //   this.activeModal.close();
-  // }
+    console.log('FormData:', fd);
+
+    this.thingsService.addThing(fd).subscribe(
+      (response) => {
+        alert(`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`);
+        this.activeModal.close();
+        this.thingForm.reset();
+        // window.location.reload();
+      },
+      (error) => {
+        console.error('Error:', error);
+        alert('Error adding thing. Please try again.');
+      }
+    );
+  };
+
+
+
+
+  closeModal() {
+    this.activeModal.close();
+  }
 }

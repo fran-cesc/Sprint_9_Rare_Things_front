@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AddThingComponent } from '../../components/addThing/addThing.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar',

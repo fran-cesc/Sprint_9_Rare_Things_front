@@ -1,24 +1,36 @@
 <div class="col-lg-12 wow fadeIn" data-wow-delay="0.1s">
   <div class="bg-secondary p-5">
       <h1 class="text-uppercase mb-4">Upload Rare Thing</h1>
-      <p class="mb-4"></p>
-      <form>
-          <div class="row g-3">
+      <form [formGroup]="thingForm" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-12">
+              <!-- TODO: label changes size while input field selected -->
+              <div class="form-floating">
+                  <input type="text" class="form-control bg-transparent"
+                    id="title" placeholder="Title" formControlName="thing_title">
+                  <label for="title">Title</label>
+              </div>
               <div class="col-12">
-                  <div class="form-floating">
-                      <input type="file" class="form-control-sm bg-transparent">
-                  </div>
+                <div class="form-floating">
+                  <textarea class="form-control bg-transparent" placeholder="Write your description here"
+                    id="description" style="height: 100px" formControlName="description"></textarea>
+                  <label for="description">Description</label>
+                </div>
               </div>
               <div class="col-12">
                   <div class="form-floating">
-                      <textarea class="form-control bg-transparent" placeholder="Write your description here" id="description" style="height: 100px"></textarea>
-                      <label for="description">Description</label>
+                      <input type="file" class="form-control-sm bg-transparent" (change)="onImageLoad($event)">
                   </div>
               </div>
+              <!-- <div class="col-5">
+                <button class="btn btn-primary w-100 py-3" type="submit" (click)="closeModal()">Close</button>
+            </div> -->
               <div class="col-12">
-                  <button class="btn btn-primary w-100 py-3" type="submit">Send</button>
+                  <button class="btn btn-primary w-100 py-3" type="submit" (click)="addThing()">Send</button>
               </div>
+
           </div>
+        </div>
       </form>
   </div>
 </div>
