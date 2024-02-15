@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { ThingsListComponent } from './pages/things-list/things-list.component';
 import { HomeComponent } from './pages/home/home.component';
 import { MapComponent } from './pages/map/map.component';
-import { AddThingComponent } from './components/addThing/addThing.component';
+import { ThingPageComponent } from './pages/thing-page/thing-page.component';
 
 export const routes: Routes = [
   {
@@ -11,20 +11,11 @@ export const routes: Routes = [
   },
   {
     path: 'things',
-    component: ThingsListComponent
+    component: ThingsListComponent,
     // children: [
     //   {
-    //     path: 'new',
-    //     title: 'Add new thing',
-    //     component: AddThingComponent
-    //   },
-    //   {
-    //     path: 'edit/:id',
-    //     component: AddRunnerComponent
-    //   },
-    //   {
     //     path: ':id',
-    //     component: AddRunnerComponent
+    //     component: ThingPageComponent
     //   }
     // ],
   },
@@ -32,10 +23,20 @@ export const routes: Routes = [
     path: 'map',
     component: MapComponent
   },
-  // {
-  //   path: 'things/new',
-  //   component: AddThingComponent
-  // },
+  {
+    path: 'thing-page',
+    component: ThingPageComponent,
+    // children: [
+    //   {
+    //     path:':id',
+    //     component: ThingPageComponent
+    //   }
+    // ]
+  },
+  {
+    path: 'thing-page/:id',
+    component: ThingPageComponent
+  },
   {
     path: '',
     redirectTo: 'home',

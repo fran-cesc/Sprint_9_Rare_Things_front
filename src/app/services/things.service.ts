@@ -11,6 +11,10 @@ export class ThingsService {
 
   constructor(private http: HttpClient) {}
 
+  getThing(id: number): Observable<Thing>{
+    return this.http.get<Thing>(`${this.baseUrl}/things/${id}`)
+  }
+
   getAllThings(): Observable<Thing[]> {
     return this.http.get<Thing[]>(`${this.baseUrl}/things`);
   }

@@ -4,99 +4,23 @@
           <h1 class="text-uppercase">All Rare Things</h1>
       </div>
       <div class="row g-4">
-        <div class="col-lg-6 col-md-8 wow fadeInUp" data-wow-delay="0.1s">
-          <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-            <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center imgdiv">
-              <img class="img-fluid" src="http://localhost:3000/things/img_uploads/fantasy-4697978_1280.jpg" alt="children ufo">
-            </div>
+        @for (thing of things; track thing.id){
+        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+          <div class="service-item position-relative overflow-hidden bg-transparent d-flex h-100 p-5"
+          [style.backgroundImage]="'url(' + baseUrl + thing.img_name + ')'" >
             <div class="ps-4">
-                  <h3 class="text-uppercase mb-3">Haircut</h3>
+                  <h3 class="mb-3 text-uppercase">{{thing.thing_title}}</h3>
                   <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-              </div>
-              <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-          </div>
-      </div>                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-        <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-            <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                <img class="img-fluid" src="img/beard-trim.png" alt="">
             </div>
-            <div class="ps-4">
-                <h3 class="text-uppercase mb-3">Beard Trim</h3>
-                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-                <span class="text-uppercase text-primary">From $15</span>
-            </div>
-            <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-        </div>
-    </div>
-    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-      <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-          <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-              <img class="img-fluid" src="img/beard-trim.png" alt="">
+              <a [routerLink]="['/thing-page',thing.id]" class="btn btn-square"><i class="fa fa-plus text-primary"></i></a>
           </div>
-          <div class="ps-4">
-              <h3 class="text-uppercase mb-3">Beard Trim</h3>
-              <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-              <span class="text-uppercase text-primary">From $15</span>
-          </div>
-          <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-      </div>
-  </div>
-  <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-    <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-        <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-            <img class="img-fluid" src="img/beard-trim.png" alt="">
         </div>
-        <div class="ps-4">
-            <h3 class="text-uppercase mb-3">Beard Trim</h3>
-            <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-            <span class="text-uppercase text-primary">From $15</span>
-        </div>
-        <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-    </div>
-</div>
-<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-  <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-      <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-          <img class="img-fluid" src="img/beard-trim.png" alt="">
+        } @empty {
+          Could not load list of things or list is empty
+        }
       </div>
-      <div class="ps-4">
-          <h3 class="text-uppercase mb-3">Beard Trim</h3>
-          <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-          <span class="text-uppercase text-primary">From $15</span>
-      </div>
-      <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
   </div>
 </div>
 
-      <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-        <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-            <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                <img class="img-fluid" src="img/beard-trim.png" alt="">
-            </div>
-            <div class="ps-4">
-                <h3 class="text-uppercase mb-3">Beard Trim</h3>
-                <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-                <span class="text-uppercase text-primary">From $15</span>
-            </div>
-            <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-        </div>
-    </div>
 
-          <!-- <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-              <div class="service-item position-relative overflow-hidden bg-secondary d-flex h-100 p-5 ps-0">
-                  <div class="bg-dark d-flex flex-shrink-0 align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                      <img class="img-fluid" src="../../../assets/img/haircut.png" alt="">
-                  </div>
-                  <div class="ps-4">
-                      <h3 class="text-uppercase mb-3">Haircut</h3>
-                      <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
-                      <span class="text-uppercase text-primary">From $15</span>
-                  </div>
-                  <a class="btn btn-square" href=""><i class="fa fa-plus text-primary"></i></a>
-              </div>
-          </div> -->
-      </div>
-  </div>
-</div>
-<!-- Service End -->
 
