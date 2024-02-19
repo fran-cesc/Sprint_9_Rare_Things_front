@@ -3,6 +3,8 @@ export interface Thing {
   user_name: string;
   img_name: string;
   thing_title: string;
-  description: string;
-  date: Date
+  date: Date;
+  location: string;
+  category: 'nature'|'city'|'ufo'|'ghost';
+  votes: number;
 }

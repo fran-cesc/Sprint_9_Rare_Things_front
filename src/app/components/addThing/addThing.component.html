@@ -10,26 +10,34 @@
                     id="title" placeholder="Title" formControlName="thing_title">
                   <label for="title">Title</label>
               </div>
-              <div class="col-12">
+            </div>
+            <div class="col-12">
                 <div class="form-floating">
-                  <textarea class="form-control bg-transparent" placeholder="Write your description here"
-                    id="description" style="height: 100px" formControlName="description"></textarea>
-                  <label for="description">Description</label>
+                    <input type="text" class="form-control bg-transparent"
+                      id="location" placeholder="Location" formControlName="location">
+                      <label for="location">Location</label>
                 </div>
-              </div>
-              <div class="col-12">
+            </div>
+            <div class="col-12">
+                  <div class="form-floating">
+                      <select type="text" class="form-control bg-transparent form-select"
+                        id="category" placeholder="Category" formControlName="category">
+                        <option selected>Category</option>
+                        <option value="nature">Nature</option>
+                        <option value="city">City</option>
+                        <option value="ufo">Ufo</option>
+                        <option value="ghost">Ghost</option>
+                      </select>
+                    </div>
+            </div>
+            <div class="col-12">
                   <div class="form-floating">
                       <input type="file" class="form-control-sm bg-transparent" (change)="onImageLoad($event)">
                   </div>
-              </div>
-              <!-- <div class="col-5">
-                <button class="btn btn-primary w-100 py-3" type="submit" (click)="closeModal()">Close</button>
-            </div> -->
-              <div class="col-12">
+            </div>
+            <div class="col-12">
                   <button class="btn btn-primary w-100 py-3" type="submit" (click)="addThing()">Send</button>
-              </div>
-
-          </div>
+            </div>
         </div>
       </form>
   </div>

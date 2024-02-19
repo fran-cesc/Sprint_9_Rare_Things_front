@@ -1,4 +1,8 @@
+.containerdiv{
+  height: 250px;
+}
+
 .imgdiv{
-  width: 50%;
-  height: 100%;
+ background-size: cover;
+ background-position: center;
 }

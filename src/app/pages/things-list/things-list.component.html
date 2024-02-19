@@ -5,14 +5,17 @@
       </div>
       <div class="row g-4">
         @for (thing of things; track thing.id){
-        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-          <div class="service-item position-relative overflow-hidden bg-transparent d-flex h-100 p-5"
+        <div class="col-lg-4 col-md-6 wow fadeInUp containerdiv" data-wow-delay="0.1s">
+          <div class="service-item position-relative overflow-hidden bg-transparent ps-4
+          imgdiv h-100 text-center d-flex flex-column justify-content-end"
           [style.backgroundImage]="'url(' + baseUrl + thing.img_name + ')'" >
-            <div class="ps-4">
-                  <h3 class="mb-3 text-uppercase">{{thing.thing_title}}</h3>
-                  <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam.</p>
+            <div class="">
+              <h3>{{thing.thing_title | uppercase }}</h3>
             </div>
-              <a [routerLink]="['/thing-page',thing.id]" class="btn btn-square"><i class="fa fa-plus text-primary"></i></a>
+            <div>
+              <p class="text-white mt-auto">{{thing.category | titlecase}}</p>
+            </div>
+            <a [routerLink]="['/thing-page',thing.id]" class="btn btn-square"><i class="fa fa-plus text-primary"></i></a>
           </div>
         </div>
         } @empty {

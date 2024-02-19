@@ -30,10 +30,11 @@ export class AddThingComponent {
       Validators.minLength(3),
     ]),
     thing_title: new FormControl('', Validators.required),
-    description: new FormControl('', [
+    location: new FormControl('', [
       Validators.required,
       Validators.minLength(3),
-    ])
+    ]),
+    category: new FormControl('', Validators.required)
     });
 
     constructor(
@@ -76,9 +77,8 @@ export class AddThingComponent {
     fd.append('image', this.file);
     fd.append('user_name', this.thingForm.value.user_name);
     fd.append('thing_title', this.thingForm.value.thing_title);
-    fd.append('description', this.thingForm.value.description);
-
-    console.log('FormData:', fd);
+    fd.append('location', this.thingForm.value.location);
+    fd.append('category', this.thingForm.value.category);
 
     this.thingsService.addThing(fd).subscribe(
       (response) => {

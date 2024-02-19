@@ -46,4 +46,8 @@ export class ThingPageComponent implements OnInit {
     this.router.navigate(['things']);
   }
 
+  public comment(){
+    
+  }
+
 }

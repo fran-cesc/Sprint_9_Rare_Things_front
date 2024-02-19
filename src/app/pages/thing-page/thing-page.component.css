@@ -1,3 +1,7 @@
 :host {
   display: block;
 }
+
+.divclass{
+  border: 1px solid white;
+}
