@@ -10,10 +10,10 @@
           imgdiv h-100 text-center d-flex flex-column justify-content-end"
           [style.backgroundImage]="'url(' + baseUrl + thing.img_name + ')'" >
             <div class="">
-              <h3>{{thing.thing_title | uppercase }}</h3>
+              <h3 class="">{{thing.thing_title | uppercase }}</h3>
             </div>
             <div>
-              <p class="text-white mt-auto">{{thing.category | titlecase}}</p>
+              <p class="text-white">{{thing.category | titlecase}}</p>
             </div>
             <a [routerLink]="['/thing-page',thing.id]" class="btn btn-square"><i class="fa fa-plus text-primary"></i></a>
           </div>

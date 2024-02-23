@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -19,63 +19,63 @@ import { ThingsService } from '../../services/things.service.js';
   styleUrl: './addThing.component.css',
 })
 
-export class AddThingComponent {
+export class AddThingComponent implements OnInit{
 
   public file: any;
 
-  //TODO correctly validate
   public thingForm: FormGroup = new FormGroup({
-    user_name: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    thing_title: new FormControl('', Validators.required),
-    location: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
-    category: new FormControl('', Validators.required)
+    thing_title: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    location: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    category: new FormControl('', Validators.required),
+    img_name: new FormControl('', Validators.required)
     });
 
     constructor(
-    private router: Router,
-    private modalService: NgbModal,
+    // private router: Router,
+    // private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    private validatorsService: ValidatorsService,
+    public validatorsService: ValidatorsService,
     private thingsService: ThingsService
     ) {}
 
-  // isValidField(field: string): boolean | null {
-  //   return this.validatorsService.isValidField(this.runnerForm, field);
-  // }
-  // getFieldError(field: string): string | null {
-  //   if (!this.runnerForm.controls[field]) return null;
-  //   const errors = this.runnerForm.controls[field].errors || {};
+  ngOnInit(): void {
+    this.thingForm.reset();
+    this.thingForm.get('thing_title')!.markAsUntouched;
+    }
 
-  //   for (const key of Object.keys(errors)) {
-  //     if (key === 'required') {
-  //       return 'This field is required';
-  //     } else if (key === 'minlength') {
-  //       return `${errors['minlength'].requiredLength} caracters minimum`;
-  //     } else if (key === 'pattern') {
-  //       return 'time must be in hhmmss format';
-  //     }
-  //   }
-  //   return null;
-  // }
+
+  isValidField(field: string): boolean | null {
+    return this.validatorsService.isValidField(this.thingForm, field);
+  }
+
+  getFieldError(field: string): string | null {
+    if (!this.thingForm.controls[field]) return null;
+    const errors = this.thingForm.controls[field].errors || {};
+
+    for (const key of Object.keys(errors)) {
+      if (key === 'required') {
+        return 'This field is required';
+      };
+      if (key === 'minlength') {
+        return `This field must have ${errors['minlength'].requiredLength} caracters minimum`;
+      };
+    }
+    return null;
+  }
+
   onImageLoad(event: any){
     this.file = event.target.files[0];
   }
 
   addThing(): void {
-    // if (this.thingForm.invalid) {
-    //   this.thingForm.markAllAsTouched();
-    //   return;
-    // }
+    if (this.thingForm.invalid) {
+      this.thingForm.markAllAsTouched();
+      return;
+    }
 
     let fd = new FormData();
     fd.append('image', this.file);
-    fd.append('user_name', this.thingForm.value.user_name);
+    // fd.append('user_name', this.thingForm.value.user_name);
     fd.append('thing_title', this.thingForm.value.thing_title);
     fd.append('location', this.thingForm.value.location);
     fd.append('category', this.thingForm.value.category);
@@ -85,17 +85,13 @@ export class AddThingComponent {
         alert(`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`);
         this.activeModal.close();
         this.thingForm.reset();
-        // window.location.reload();
       },
-      (error) => {
-        console.error('Error:', error);
-        alert('Error adding thing. Please try again.');
-      }
+      // (error) => {
+      //   console.error('Error:', error);
+      //   alert('Error adding thing. Please try again.');
+      // }
     );
   };
-
-
-
 
   closeModal() {
     this.activeModal.close();

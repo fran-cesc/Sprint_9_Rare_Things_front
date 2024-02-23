@@ -1,44 +1,90 @@
-<div class="col-lg-12 wow fadeIn" data-wow-delay="0.1s">
+<div class="col-lmb-22 wow fadeIn" data-wow-delay="0.1s">
   <div class="bg-secondary p-5">
-      <h1 class="text-uppercase mb-4">Upload Rare Thing</h1>
-      <form [formGroup]="thingForm" enctype="multipart/form-data">
-        <div class="row g-3">
-            <div class="col-12">
-              <!-- TODO: label changes size while input field selected -->
-              <div class="form-floating">
-                  <input type="text" class="form-control bg-transparent"
-                    id="title" placeholder="Title" formControlName="thing_title">
-                  <label for="title">Title</label>
+    <h1 class="text-uppercase mb-4 text-center">Upload Rare Thing</h1>
+    <form [formGroup]="thingForm" enctype="multipart/form-data" ngbAutofocus>
+
+      <div class="row my-2">
+          <label for="title" class="col-3 col-form-label" style="border: 1px solid red">Title:</label>
+          <div class="col-9">
+            <input
+              type="text"
+              class="form-control bg-secondary"
+              id="title"
+              formControlName="thing_title"
+              [ngClass]="{
+                'is-valid': thingForm.get('thing_title')!.valid && thingForm.get('thing_title')!.touched,
+                'is-invalid': thingForm.get('thing_title')!.invalid && thingForm.get('thing_title')!.touched
+              }"/>
+              <div *ngIf="isValidField('thing_title')" class="form-text text-danger">
+                {{ getFieldError("thing_title") }}
               </div>
-            </div>
-            <div class="col-12">
-                <div class="form-floating">
-                    <input type="text" class="form-control bg-transparent"
-                      id="location" placeholder="Location" formControlName="location">
-                      <label for="location">Location</label>
-                </div>
-            </div>
-            <div class="col-12">
-                  <div class="form-floating">
-                      <select type="text" class="form-control bg-transparent form-select"
-                        id="category" placeholder="Category" formControlName="category">
-                        <option selected>Category</option>
-                        <option value="nature">Nature</option>
-                        <option value="city">City</option>
-                        <option value="ufo">Ufo</option>
-                        <option value="ghost">Ghost</option>
-                      </select>
-                    </div>
-            </div>
-            <div class="col-12">
-                  <div class="form-floating">
-                      <input type="file" class="form-control-sm bg-transparent" (change)="onImageLoad($event)">
-                  </div>
-            </div>
-            <div class="col-12">
-                  <button class="btn btn-primary w-100 py-3" type="submit" (click)="addThing()">Send</button>
+          </div>
+      </div>
+
+      <div class="row my-2">
+        <label for="location" class="col-3 col-form-label">Location:</label>
+        <div class="col-9">
+          <input
+            type="text"
+            class="form-control bg-transparent"
+            id="location"
+            formControlName="location"
+            [ngClass]="{
+              'is-valid': thingForm.get('location')!.valid && thingForm.get('location')!.touched,
+              'is-invalid': thingForm.get('location')!.invalid && thingForm.get('location')!.touched
+            }"/>
+            <div *ngIf="isValidField('location')" class="form-text text-danger">
+              {{ getFieldError("location") }}
             </div>
         </div>
-      </form>
+      </div>
+
+      <div class="row my-2">
+        <label for="category" class="col-3 col-form-label">Category:</label>
+        <div class="col-9">
+          <select
+            type="text"
+            class="bg-transparent form-select"
+            id="category"
+            formControlName="category"
+            [ngClass]="{
+              'is-valid': thingForm.get('category')!.valid && thingForm.get('category')!.touched,
+              'is-invalid': thingForm.get('category')!.invalid && thingForm.get('category')!.touched
+            }">
+            <option value="" disabled selected>Category</option>
+            <option value="nature">Nature</option>
+            <option value="city">City</option>
+            <option value="ufo">Ufo</option>
+            <option value="ghost">Ghost</option>
+          </select>
+          <div *ngIf="isValidField('category')" class="form-text text-danger">
+            {{ getFieldError("category") }}
+          </div>
+        </div>
+      </div>
+
+        <div class="row my-2">
+          <label for="img_name" class="col-3 col-form-label">Image:</label>
+          <div class="col-9">
+            <input
+              type="file"
+              class="form-control bg-transparent"
+              formControlName="img_name"
+              (change)="onImageLoad($event)"
+              [ngClass]="{
+                'is-valid': thingForm.get('img_name')!.valid && thingForm.get('img_name')!.touched,
+                'is-invalid': thingForm.get('img_name')!.invalid && thingForm.get('img_name')!.touched
+              }"/>
+            <div *ngIf="isValidField('img_name')" class="form-text text-danger">
+              {{ getFieldError("img_name") }}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <button class="btn btn-primary w-100 py-3" type="submit" (click)="addThing()">Send</button>
+        </div>
+
+    </form>
   </div>
 </div>
