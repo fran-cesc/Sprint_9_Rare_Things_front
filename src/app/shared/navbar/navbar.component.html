@@ -1,6 +1,5 @@
-<!-- Navbar Start -->
 <nav class="navbar navbar-expand-lg bg-secondary navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-  <a href="index.html" class="navbar-brand ms-4 ms-lg-0">
+  <a href="" class="navbar-brand ms-4 ms-lg-0">
       <h1 class="mb-0 text-primary text-uppercase" routerLink="/home">rare things</h1>
   </a>
   <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -12,11 +11,15 @@
           <a routerLink="things" class="nav-item nav-link" routerLinkActive="active">List</a>
           <a routerLink="map" class="nav-item nav-link" routerLinkActive="active">Around me</a>
       </div>
-      <!-- <a href="" class="btn btn-primary rounded-0 py-1 px-3 d-none d-lg-block m-1">Register</a>
-      <a href="" class="btn btn-primary rounded-0 py-1 px-3 d-none d-lg-block m-1">Login</a> -->
-      <a href="" class="btn btn-primary rounded-0 py-1 px-3 d-none m-1">Register</a>
-      <a href="" class="btn btn-primary rounded-0 py-1 px-3 d-none m-1">Login</a>
+      <a class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+        id="register" (click)="open($event)">Register</a>
+      <a class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+        id="login" (click)="open($event)">Login</a>
       <button class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
   </div>
 </nav>
-<!-- Navbar End -->
+
+
+
+<!-- <a class="btn btn-primary rounded-0 py-1 px-3 d-none d-lg-block m-1"
+id="login" (click)="open($event)">Login</a> -->

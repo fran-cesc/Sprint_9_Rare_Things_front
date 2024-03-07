@@ -8,3 +8,4 @@ export interface Thing {
   category: 'nature'|'city'|'ufo'|'ghost';
   votes: number;
 }
+

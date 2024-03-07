@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -28,15 +28,12 @@ export class AddThingComponent implements OnInit{
     location: new FormControl('', [Validators.required, Validators.minLength(3)]),
     category: new FormControl('', Validators.required),
     img_name: new FormControl('', Validators.required)
-    });
+  });
 
-    constructor(
-    // private router: Router,
-    // private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
-    public validatorsService: ValidatorsService,
-    private thingsService: ThingsService
-    ) {}
+
+  activeModal= inject(NgbActiveModal);
+  validatorsService= inject(ValidatorsService);
+  thingsService= inject(ThingsService);
 
   ngOnInit(): void {
     this.thingForm.reset();
@@ -75,25 +72,26 @@ export class AddThingComponent implements OnInit{
 
     let fd = new FormData();
     fd.append('image', this.file);
-    // fd.append('user_name', this.thingForm.value.user_name);
+    fd.append('user_name', this.thingForm.value.user_name);
     fd.append('thing_title', this.thingForm.value.thing_title);
     fd.append('location', this.thingForm.value.location);
     fd.append('category', this.thingForm.value.category);
 
-    this.thingsService.addThing(fd).subscribe(
-      (response) => {
+    this.thingsService.addThing(fd).subscribe({
+      next: (response) => {
         alert(`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`);
         this.activeModal.close();
         this.thingForm.reset();
       },
-      // (error) => {
-      //   console.error('Error:', error);
-      //   alert('Error adding thing. Please try again.');
-      // }
-    );
+      error: (error) => {
+        console.error('Error:', error);
+        alert('Error adding thing. Please try again.');
+      }
+    });
   };
 
   closeModal() {
     this.activeModal.close();
-  }
+  };
+
 }

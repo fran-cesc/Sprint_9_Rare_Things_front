@@ -19,6 +19,7 @@ export class ThingsListComponent{
 
   constructor( private thingsService: ThingsService){}
 
+  //TODO lazy loading
   ngOnInit(): void{
     this.thingsService.getAllThings()
       .subscribe(
