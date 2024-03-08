@@ -7,5 +7,6 @@ export interface Thing {
   location: string;
   category: 'nature'|'city'|'ufo'|'ghost';
   votes: number;
+  user_id: number;
 }
 

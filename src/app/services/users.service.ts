@@ -10,11 +10,15 @@ export class UsersService {
 
   private http = inject(HttpClient);
   private baseUrl: string = 'http://localhost:3000';
-
+  private _currentUser!: User;
 
   constructor() {
   }
 
+  getCurrentUser(): User{
+    return this._currentUser;
+  }
+  
   public register(user: User){
     return firstValueFrom(
       this.http.post<User>(`${this.baseUrl}/register`, user)
@@ -26,6 +30,8 @@ export class UsersService {
       this.http.post<User>(`${this.baseUrl}/login`, user)
     );
   }
+
+
 
   async isMailRegistered(email: string) {
     try {
@@ -44,8 +50,6 @@ export class UsersService {
       throw new Error('Error verifying email:' + error);
     }
   }
-
-
 
   isLogged(): boolean {
     return localStorage.getItem('token') ? true : false;

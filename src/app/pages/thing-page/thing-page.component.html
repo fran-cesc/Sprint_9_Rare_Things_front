@@ -7,11 +7,11 @@
                       </div>
                       <div class="bg-secondary d-flex justify-content-between">
                         <div class="d-flex  align-items-center justify-content-between">
-                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, 1)">
+                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, 1)" [disabled]="!isLogged || hasVoted" >
                             <i class="fa-solid fa-circle-up fa-xl"></i>
                           </button>
                           <div class="">{{currentThing?.votes}}</div>
-                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, -1)">
+                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, -1)" [disabled]="!isLogged || hasVoted">
                             <i class="fa-solid fa-circle-down fa-xl"></i>
                           </button>
                         </div>

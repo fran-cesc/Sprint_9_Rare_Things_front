@@ -6,6 +6,7 @@ import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,8 @@ import { RegisterComponent } from '../register/register.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+
+  public currentUser!: User;
 
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
@@ -34,7 +37,6 @@ export class LoginComponent {
     })
 
   }
-
 
   public isValidField(field: string){
     return this.customValidators.isValidField(this.userForm, field);
@@ -54,6 +56,7 @@ export class LoginComponent {
 
       if (!response.error) {
         localStorage.setItem('token', response.token);
+        // this.currentUser = this.usersService.getCurrentUser().;
         this.userForm.reset();
         alert("User logged in successfuly");
         this.activeModal.close();
