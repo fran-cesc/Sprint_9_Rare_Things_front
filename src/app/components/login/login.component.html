@@ -1,1 +1,55 @@
-<p>login works!</p>,
+<div class="col-lmb-22 wow fadeIn" data-wow-delay="0.1s">
+  <div class="bg-secondary p-5">
+    <h1 class="text-uppercase mb-4">Log in</h1>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" ngbAutofocus>
+
+      <div class="row my-2">
+        <label for="email" class="col-3 col-form-label">Email:</label>
+        <div class="col-9">
+          <input
+            type="email"
+            class="form-control bg-transparent"
+            id="email"
+            formControlName="email"
+            [ngClass]="{
+              'is-valid': userForm.get('email')!.valid && userForm.get('email')!.touched,
+              'is-invalid': userForm.get('email')!.invalid && userForm.get('email')!.touched
+            }"/>
+            <div *ngIf="isValidField('email')" class="form-text text-danger">
+              {{ getFieldError(userForm, "email") }}
+            </div>
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <label for="password" class="col-3 col-form-label">Password:</label>
+        <div class="col-9">
+          <input
+            type="password"
+            class="form-control bg-transparent"
+            id="password"
+            formControlName="password"
+            [ngClass]="{
+              'is-valid': userForm.get('password')!.valid && userForm.get('password')!.touched,
+              'is-invalid': userForm.get('password')!.invalid && userForm.get('password')!.touched
+            }"/>
+            <div *ngIf="isValidField('password')" class="form-text text-danger">
+              {{ getFieldError(userForm, "password") }}
+            </div>
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <div class="col-3 mt-4">
+          <button class="btn btn-secondary w-100 py-3" type="button" (click)="cancel()">Cancel</button>
+        </div>
+        <div class="col-9 mt-4">
+          <button class="btn btn-primary w-100 py-3" type="submit">Send</button>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="mb-4">Don't have an account?  <a href="" (click)="register($event)">Register</a></p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -36,6 +36,6 @@ export class NavbarComponent {
 
   public logout(){
     localStorage.removeItem('token');
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/home']);
   }
 }

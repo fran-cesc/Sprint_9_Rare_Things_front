@@ -1,5 +1,5 @@
 export interface Thing {
-  id: number;
+  thing_id: number;
   user_name: string;
   img_name: string;
   thing_title: string;

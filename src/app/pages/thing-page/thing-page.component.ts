@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ThingsService } from '../../services/things.service';
 import { Thing } from '../../interfaces/things.interface';
+import { VoteService } from '../../services/vote.service';
 
 @Component({
   selector: 'app-thing-page',
@@ -24,21 +25,17 @@ export class ThingPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
   private router = inject(Router);
+  private voteService = inject(VoteService);
 
   ngOnInit(): void {
     this.route.params.subscribe( params => {
-      this.id = params?.['id'];
+      this.id = params?.['thing_id'];
       this.thingsService.getThing(this.id).subscribe(
-        (thing) => {
+        (thing: Thing) => {
           console.log(thing);
           this.currentThing = thing
-        },
-        (error) => {
-          //TODO optimize error
-          console.error("Could not retrieve thing:", error);
         }
       )
-
     });
   }
 
@@ -46,8 +43,24 @@ export class ThingPageComponent implements OnInit {
     this.router.navigate(['things']);
   }
 
+  public vote(image_id:number, value: number){
+
+    // const hasUserVoted = this.voteService.hasUserVoted(this.currentThing?.user_name, this.currentThing?.id)
+
+    console.log("vote button clicked", value);
+    this.voteService.vote(image_id, value).subscribe(
+      (resp) => {
+        this.thingsService.getThing(this.id).subscribe(
+          (thing: Thing) => {
+            this.currentThing = thing
+          }
+        )
+      }
+    );
+  }
+
   public comment(){
-    
+    //TODO implement comment function
   }
 
 }

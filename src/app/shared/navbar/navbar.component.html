@@ -11,15 +11,14 @@
           <a routerLink="things" class="nav-item nav-link" routerLinkActive="active">List</a>
           <a routerLink="map" class="nav-item nav-link" routerLinkActive="active">Around me</a>
       </div>
-      <a class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
-        id="register" (click)="open($event)">Register</a>
-      <a class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+      <a *ngIf="!usersService.isLogged()" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
         id="login" (click)="open($event)">Login</a>
-      <button class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
+      <button *ngIf="usersService.isLogged()" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
+      <a *ngIf="usersService.isLogged()" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+      (click)="logout()">Logout</a>
+
   </div>
 </nav>
 
 
 
-<!-- <a class="btn btn-primary rounded-0 py-1 px-3 d-none d-lg-block m-1"
-id="login" (click)="open($event)">Login</a> -->

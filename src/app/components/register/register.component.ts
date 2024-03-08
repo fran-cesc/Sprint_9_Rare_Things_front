@@ -16,9 +16,10 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class RegisterComponent {
 
-  public isRegistered!: boolean;
+  public isEmailRegistered!: boolean;
 
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
@@ -46,41 +47,41 @@ export class RegisterComponent {
 
   public async onSubmit(){
     try{
-
+      this.userForm.markAllAsTouched();
       if (this.userForm.invalid){
         return;
       }
 
-    const userMail = await this.userForm.get('email')!.value;
-    console.log("register.ts 1");
-    console.log(userMail);
-    // const userName = await this.this.userForm.get('user_name')!.value;
+      const userMail = await this.userForm.get('email')!.value;
 
-    this.isRegistered = await this.usersService.isMailRegistered(userMail);
-    console.log("register.ts 2");
-    console.log(this.isRegistered);
+      this.isEmailRegistered = await this.usersService.isMailRegistered(userMail);
 
-    if (this.isRegistered) {
-      alert("email is already registered");
-      this.userForm.reset();
-      this.activeModal.close();
-      return;
-    }
+      if (this.isEmailRegistered) {
+        alert("email is already registered");
+        this.userForm.reset();
+        this.activeModal.close();
+        return;
+      }
 
-    await this.usersService.register(this.userForm.value);
-    const response = await this.usersService.login(this.userForm.value);
 
-    if (!response.error) {
-      localStorage.setItem('token', response.accessToken);
-      this.userForm.reset();
-      alert("User registered");
-      this.activeModal.close();
-      // this.router.navigate(['/welcome']);
-    }
+      await this.usersService.register(this.userForm.value);
+      const response: any = await this.usersService.login(this.userForm.value);
+
+      if (!response.error) {
+        localStorage.setItem('token', response.token);
+        this.userForm.reset();
+        alert("User registered successfuly");
+        this.activeModal.close();
+        this.router.navigate(['/home']);
+      }
     }
     catch (error){
-    throw error;
+      throw error;
     }
+  }
+
+  public cancel(){
+    this.activeModal.close();
   }
 }
 

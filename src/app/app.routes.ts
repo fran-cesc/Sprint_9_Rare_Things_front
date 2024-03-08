@@ -36,7 +36,7 @@ export const routes: Routes = [
     // ]
   },
   {
-    path: 'thing-page/:id',
+    path: 'thing-page/:thing_id',
     component: ThingPageComponent
   },
   // {
