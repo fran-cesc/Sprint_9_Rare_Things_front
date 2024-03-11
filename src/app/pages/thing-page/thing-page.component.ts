@@ -32,23 +32,17 @@ export class ThingPageComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.currentUser = this.usersService.currentUser(); // Retrieve current user from service
+    this.currentUser = this.usersService.currentUser();
     console.log('thing-page-comp, ngOnInit, currentUser:', this.currentUser);
 
     this.route.params.subscribe((params) => {
-      this.id = params?.['thing_id']; // Get thing_id from params
+      this.id = params?.['thing_id'];
       this.thingsService.getThing(this.id).subscribe((thing) => {
-        // Retriveve thing from service
         this.currentThing = thing;
-        this.voteService
-          .hasUserVoted(this.currentUser.user_id, this.currentThing.thing_id)
-          .subscribe((resp) => {
-            this.hasVoted = resp.hasVoted;
-          });
       });
     });
 
-    this.isLogged = this.usersService.isLogged(); // Check if user is logged
+    this.isLogged = this.usersService.isLogged();
   }
 
   public goBack() {
@@ -83,10 +77,6 @@ export class ThingPageComponent implements OnInit {
           });
         });
       });
-
-    // this.voteService.hasUserVoted(user_id, thing_id).subscribe((resp) => {
-    //   this.hasVoted = resp.hasVoted;
-    // });
   }
   comment(){
     //TODO implement comments
