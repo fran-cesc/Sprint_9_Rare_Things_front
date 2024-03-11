@@ -36,6 +36,13 @@ export class NavbarComponent {
 
   public logout(){
     localStorage.removeItem('token');
+    this.usersService.currentUser.set({
+      user_id: 0,
+      user_name:'',
+      email: '',
+      password: '',
+      accessToken: ''
+    });
     this.router.navigate(['/home']);
   }
 }

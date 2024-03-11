@@ -3,22 +3,24 @@
           <div class="row g-4">
               <div class="col-lg-12 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
                       <div class="team-img position-relative overflow-hidden">
-                          <img class="w-100" [src]="baseUrl + currentThing?.img_name" alt="">
+                          <img class="w-100" *ngIf="currentThing" [src]="baseUrl + currentThing.img_name" alt="">
                       </div>
                       <div class="bg-secondary d-flex justify-content-between">
                         <div class="d-flex  align-items-center justify-content-between">
-                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, 1)" [disabled]="!isLogged || hasVoted" >
+                          <div type="button" class="btn" style="border:none"
+                          (click)="userVote(currentUser!.user_id, currentThing.thing_id, 1)">
                             <i class="fa-solid fa-circle-up fa-xl"></i>
-                          </button>
-                          <div class="">{{currentThing?.votes}}</div>
-                          <button type="button" class="btn" (click)="vote(currentThing!.thing_id, -1)" [disabled]="!isLogged || hasVoted">
+                          </div>
+                          <div class="" *ngIf="currentThing">{{currentThing.votes}}</div>
+                          <div type="button" class="btn" style="border:none"
+                          (click)="userVote(currentUser!.user_id, currentThing.thing_id, -1)">
                             <i class="fa-solid fa-circle-down fa-xl"></i>
-                          </button>
+                          </div>
                         </div>
                         <div class="d-flex align-items-center">
-                          <h5 class="m-3 mx-5">{{currentThing?.thing_title | titlecase}}</h5>
-                          <p class="text-white m-3 mx-5">{{currentThing?.location | titlecase}}</p>
-                          <p class="text-white m-3 mx-5">{{currentThing?.date | date}}</p>
+                          <h5 class="m-3 mx-5" *ngIf="currentThing">{{currentThing.thing_title | titlecase}}</h5>
+                          <p class="text-white m-3 mx-5" *ngIf="currentThing">{{currentThing.location | titlecase}}</p>
+                          <p class="text-white m-3 mx-5" *ngIf="currentThing">{{currentThing.date | date}}</p>
                         </div>
                         <div class="d-flex">
                             <button type="button" class="btn btn-terciary btn-block mt-2" (click)="comment()"><i class="fa-regular fa-message fa-2x"></i>

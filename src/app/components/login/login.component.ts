@@ -20,8 +20,6 @@ import { User } from '../../interfaces/user';
 })
 export class LoginComponent {
 
-  public currentUser!: User;
-
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
   customValidators = inject(ValidatorsService);
@@ -51,12 +49,10 @@ export class LoginComponent {
       if (this.userForm.invalid){
         return;
       }
-
       const response: any = await this.usersService.login(this.userForm.value);
-
       if (!response.error) {
         localStorage.setItem('token', response.token);
-        // this.currentUser = this.usersService.getCurrentUser().;
+        this.usersService.currentUser.set(response.results[0]);
         this.userForm.reset();
         alert("User logged in successfuly");
         this.activeModal.close();
@@ -64,6 +60,7 @@ export class LoginComponent {
       }
     }
     catch (error){
+      console.log(error);
       alert("Incorrect email or password");
       this.userForm.reset();
       this.activeModal.close();

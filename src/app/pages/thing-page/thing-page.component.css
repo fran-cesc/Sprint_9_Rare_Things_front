@@ -2,6 +2,8 @@
   display: block;
 }
 
-.divclass{
-  border: 1px solid white;
+
+
+.btnPersonal:focus {
+  outline: 0 !important;
 }
