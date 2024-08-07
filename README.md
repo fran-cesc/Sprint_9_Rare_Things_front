@@ -1,27 +1,76 @@
-# ThingsFront
+# Rare Things front
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.6.
+## Description
 
-## Development server
+This repository contains the frontend files for the Rare Things app which allows registered users to upload images and vote them. The app is generated with [Angular CLI] version 17.0.0. and a responsive HTML template made with [Bootstrap 5.3].
+The frontend app interacts with the backend API [Sprint_9_Rare_Things_back](https://github.com/fran-cesc/Sprint_9_Rare_Things_back).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Tecnologies
 
-## Code scaffolding
+- HTML
+- CSS
+- Typescript
+- Angular version 17.0.0
+- Bootstrap version 5.3
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Requirements
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Node.js y npm instalados en tu sistema. Puedes descargarlos desde [nodejs.org](https://nodejs.org/).
+- Angular CLI instalado globalmente. Puedes instalarlo con el siguiente comando:
 
-## Running unit tests
+```bash
+npm install -g @angular/cli
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 🛠️ Instalación
 
-## Running end-to-end tests
+**✔️ Paso 1:** Levanta el servidor de base de datos, utilizando XAMPP u otra herramienta similar. Importa la base de datos utilizando el archivo **_ezhub.sql_**.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+**✔️ Paso 2:** Levanta el servidor [Ezhub](https://github.com/Yul1b3th/ezhub-backend)
 
-## Further help
+**✔️ Paso 3:** Clona el repositorio:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+git clone https://github.com/Yul1b3th/ezhub-frontend.git
+```
+
+**✔️ Paso 4:** Ingresa al directorio del proyecto:
+
+```bash
+cd ezhub-frontend
+```
+
+**✔️ Paso 5:** Copia el archivo **_.env.template_** y renómbralo como **_.env_**. Este archivo contendrá las variables de entorno necesarias para la configuración del proyecto.
+
+**✔️ Paso 7:** Abre el archivo **_.env_** y completa las variables de entorno según las especificaciones proporcionadas en el archivo. Asegúrate de incluir la clave de acceso de MapBox u otras credenciales sensibles sin compartirlas en repositorios públicos.
+
+**✔️ Paso 7:** Instala las dependencias:
+
+```bash
+npm install
+```
+
+## ▶️ Ejecución
+
+Ejecuta la aplicación con el siguiente comando:
+
+```bash
+npm start
+```
+
+## 🌐 Despliegue
+
+Para desplegar la aplicación en producción, sigue estos pasos:
+
+**✔️ Paso 1:** Ejecuta el comando de construcción para compilar la aplicación Angular:
+
+```bash
+ng build --prod
+```
+
+**✔️ Paso 2:** Los archivos generados se almacenarán en el directorio `dist/`. Puedes desplegar estos archivos en un servidor web o en un servicio de alojamiento que admita aplicaciones web estáticas.
+
+## 🤝 Contribuciones
+
+Si deseas colaborar en este proyecto o informar sobre problemas, no dudes en crear un "issue" o enviar un "pull request."

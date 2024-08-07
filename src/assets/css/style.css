@@ -14,61 +14,21 @@
     z-index: 99;
 }
 
-/*** Personal Queries ***/
-
-@media (min-width: 1201) {
-  .responsive-text{
-    font-size: 2em;
-  }
-  .responsive-icon{
-    font-size: 4em
-  }
+.responsive-text{
+  font-size: 1em;
+}
+.responsive-icon{
+  font-size: 1.5em;
 }
 
-@media (min-width: 993px) {
-  .responsive-text{
-    font-size: 1.5em;
-  }
-  .responsive-icon{
-    font-size: 3em;
-  }
-}
-
-@media (min-width: 992px) {
-  .responsive-text{
-    font-size: 1.2em;
-  }
-  .responsive-icon{
-    font-size: 2em;
-  }
-}
-
-@media (min-width: 767px) {
+/* @media (max-width: 575px) {
   .responsive-text{
     font-size: 1em;
   }
   .responsive-icon{
-    font-size: 1.4em;
+    font-size: 1.5em;
   }
-}
-
-@media (min-width: 575px) {
-  .responsive-text{
-    font-size: 0,8em;
-  }
-  .responsive-icon{
-    font-size: 1.2em;
-  }
-}
-
-@media (max-width: 574) {
-  .responsive-text{
-    font-size: 0.6em;
-  }
-  .responsive-icon{
-    font-size: 0.8em;
-  }
-}
+} */
 
 
 /*** Spinner ***/
