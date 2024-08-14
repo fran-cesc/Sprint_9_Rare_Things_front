@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { Thing } from '../interfaces/things.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +10,7 @@ import { Thing } from '../interfaces/things.interface';
 export class ThingsService {
 
   private http = inject(HttpClient);
-  // public baseUrl = 'http://localhost:3000';
-  public baseUrl = 'https://rare-things-back.onrender.com';
+  public baseUrl = environment.BACKEND_BASE_URL;
 
   constructor() {}
 

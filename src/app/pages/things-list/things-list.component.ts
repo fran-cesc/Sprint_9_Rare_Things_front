@@ -4,6 +4,7 @@ import { Thing } from '../../interfaces/things.interface';
 import { ThingsService } from '../../services/things.service';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-things-list',
@@ -15,7 +16,7 @@ import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 export class ThingsListComponent{
 
   public things: Thing[] = [];
-  public baseUrl: string = 'BACKEND_BASE_URL';
+  public baseUrl: string = environment.BACKEND_BASE_URL;
 
   constructor( private thingsService: ThingsService){}
 

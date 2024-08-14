@@ -7,6 +7,7 @@ import { Thing } from '../../interfaces/things.interface';
 import { VoteService } from '../../services/vote.service';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../interfaces/user';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-thing-page',
@@ -17,9 +18,9 @@ import { User } from '../../interfaces/user';
 })
 export class ThingPageComponent implements OnInit {
   public id!: number;
-  public currentThing!: Thing;
+  public currentThing?: Thing;
   public currentUser!: User;
-  public baseUrl: string = 'BACKEND_BASE_URL';
+  public baseUrl: string = environment.BACKEND_BASE_URL;
   public isLogged?: boolean;
   public hasVoted?: boolean;
 
@@ -51,7 +52,7 @@ export class ThingPageComponent implements OnInit {
 
   public userVote(user_id: number, thing_id: number, value: number) {
     this.voteService
-      .hasUserVoted(this.currentUser.user_id, this.currentThing.thing_id)
+      .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
       .subscribe((resp) => {
         this.hasVoted = resp.hasVoted;
 

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 export class VoteService {
 
   private http = inject(HttpClient);
-  private baseUrl: string = 'https://rare-things-back.onrender.com';
+  private baseUrl: string = environment.BACKEND_BASE_URL;
 
   constructor() { }
 

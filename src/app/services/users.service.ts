@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { BehaviorSubject, empty, firstValueFrom } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { BehaviorSubject, empty, firstValueFrom } from 'rxjs';
 export class UsersService {
 
   private http = inject(HttpClient);
-  private baseUrl: string = 'https://rare-things-back.onrender.com';
+  private baseUrl: string = environment.BACKEND_BASE_URL;
   public currentUser = signal<User>({
     user_id: 0,
     user_name:'',
