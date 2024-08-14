@@ -19,7 +19,7 @@ export class ThingPageComponent implements OnInit {
   public id!: number;
   public currentThing!: Thing;
   public currentUser!: User;
-  public baseUrl: string = 'http://localhost:3000/';
+  public baseUrl: string = 'BACKEND_BASE_URL';
   public isLogged?: boolean;
   public hasVoted?: boolean;
 

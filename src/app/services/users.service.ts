@@ -9,7 +9,7 @@ import { BehaviorSubject, empty, firstValueFrom } from 'rxjs';
 export class UsersService {
 
   private http = inject(HttpClient);
-  private baseUrl: string = 'http://localhost:3000';
+  private baseUrl: string = 'https://rare-things-back.onrender.com';
   public currentUser = signal<User>({
     user_id: 0,
     user_name:'',

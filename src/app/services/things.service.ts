@@ -9,7 +9,8 @@ import { Thing } from '../interfaces/things.interface';
 export class ThingsService {
 
   private http = inject(HttpClient);
-  public baseUrl = 'http://localhost:3000';
+  // public baseUrl = 'http://localhost:3000';
+  public baseUrl = 'https://rare-things-back.onrender.com';
 
   constructor() {}
 

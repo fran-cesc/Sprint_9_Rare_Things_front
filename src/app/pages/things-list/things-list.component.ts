@@ -15,7 +15,7 @@ import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 export class ThingsListComponent{
 
   public things: Thing[] = [];
-  public baseUrl: string = 'http://localhost:3000/';
+  public baseUrl: string = 'BACKEND_BASE_URL';
 
   constructor( private thingsService: ThingsService){}
 

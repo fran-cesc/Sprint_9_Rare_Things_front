@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class VoteService {
 
   private http = inject(HttpClient);
-  private baseUrl: string = 'http://localhost:3000';
+  private baseUrl: string = 'https://rare-things-back.onrender.com';
 
   constructor() { }
 
