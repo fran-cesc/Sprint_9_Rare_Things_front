@@ -43,7 +43,7 @@ cd things_front
 
 **✔️ Step 5:** Copy the file **_.env.template_** and rename it to **_.env_**. This file will contain the environment variables needed for project configuration.
 
-**✔️ Step 7:** Open the file **_.env_** and fill variables as specified in the file.
+**✔️ Step 6:** Open the file **_.env_** and fill variables as specified in the file.
 
 **✔️ Step 7:** Install dependencies:
 
