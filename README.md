@@ -2,75 +2,59 @@
 
 ## Description
 
-This repository contains the frontend files for the Rare Things app which allows registered users to upload images and vote them. The app is generated with [Angular CLI] version 17.0.0. and a responsive HTML template made with [Bootstrap 5.3].
+This repository contains the frontend files for the Rare Things app which allows registered users to upload images and vote them. This app is generated with Angular version 17 and a responsive HTML template made with Bootstrap 5.3.
 The frontend app interacts with the backend API [Sprint_9_Rare_Things_back](https://github.com/fran-cesc/Sprint_9_Rare_Things_back).
 
 ## Tecnologies
 
-- HTML
-- CSS
-- Typescript
 - Angular version 17.0.0
+- Typescript
+- HTML5
+- CSS3
 - Bootstrap version 5.3
 
 
 ## Requirements
 
-- Node.js y npm instalados en tu sistema. Puedes descargarlos desde [nodejs.org](https://nodejs.org/).
-- Angular CLI instalado globalmente. Puedes instalarlo con el siguiente comando:
+- Node.js and npm installed in your system. You can download them from [nodejs.org](https://nodejs.org/).
+- Angular CLI globally installed. You can install it with:
 
 ```bash
 npm install -g @angular/cli
 ```
 
-## 🛠️ Instalación
+## Install
 
-**✔️ Paso 1:** Levanta el servidor de base de datos, utilizando XAMPP u otra herramienta similar. Importa la base de datos utilizando el archivo **_ezhub.sql_**.
+**✔️ Step 1:** Start database server using XAMPP or a similar tool. Import database from **database/rare_things.sql**.
 
-**✔️ Paso 2:** Levanta el servidor [Ezhub](https://github.com/Yul1b3th/ezhub-backend)
+**✔️ Step 2:** Start server [Rare_Things_back](https://github.com/fran-cesc/Sprint_9_Rare_Things_back.git)
 
-**✔️ Paso 3:** Clona el repositorio:
-
-```bash
-git clone https://github.com/Yul1b3th/ezhub-frontend.git
-```
-
-**✔️ Paso 4:** Ingresa al directorio del proyecto:
+**✔️ Step 3:** Clone the repository:
 
 ```bash
-cd ezhub-frontend
+git clone https://github.com/fran-cesc/Sprint_9_Rare_Things_front.git
 ```
 
-**✔️ Paso 5:** Copia el archivo **_.env.template_** y renómbralo como **_.env_**. Este archivo contendrá las variables de entorno necesarias para la configuración del proyecto.
+**✔️ Step 4:** Go to the project directory:
 
-**✔️ Paso 7:** Abre el archivo **_.env_** y completa las variables de entorno según las especificaciones proporcionadas en el archivo. Asegúrate de incluir la clave de acceso de MapBox u otras credenciales sensibles sin compartirlas en repositorios públicos.
+```bash
+cd things_front
+```
 
-**✔️ Paso 7:** Instala las dependencias:
+**✔️ Step 5:** Copy the file **_.env.template_** and rename it to **_.env_**. This file will contain the environment variables needed for project configuration.
+
+**✔️ Step 7:** Open the file **_.env_** and fill variables as specified in the file.
+
+**✔️ Step 7:** Install dependencies:
 
 ```bash
 npm install
 ```
 
-## ▶️ Ejecución
+## Execution
 
-Ejecuta la aplicación con el siguiente comando:
+Run the application with:
 
 ```bash
 npm start
 ```
-
-## 🌐 Despliegue
-
-Para desplegar la aplicación en producción, sigue estos pasos:
-
-**✔️ Paso 1:** Ejecuta el comando de construcción para compilar la aplicación Angular:
-
-```bash
-ng build --prod
-```
-
-**✔️ Paso 2:** Los archivos generados se almacenarán en el directorio `dist/`. Puedes desplegar estos archivos en un servidor web o en un servicio de alojamiento que admita aplicaciones web estáticas.
-
-## 🤝 Contribuciones
-
-Si deseas colaborar en este proyecto o informar sobre problemas, no dudes en crear un "issue" o enviar un "pull request."
