@@ -15,18 +15,18 @@ export const routes: Routes = [
       },
       {
         path: 'home',
+        title: 'Home',
         loadComponent: () => import('./pages/pages/home/home.component'),
-        // component: HomeComponent
       },
       {
         path: 'things-list',
+        title: 'Things List',
         loadComponent: () => import('./pages/pages/things-list/things-list.component'),
-        // component: ThingsListComponent,
       },
       {
         path: 'thing-page/:thing_id',
+        title: 'Thing',
         loadComponent: () => import('./pages/pages/thing-page/thing-page.component'),
-        // component: ThingPageComponent
       }
     ]
   },
@@ -38,6 +38,7 @@ export const routes: Routes = [
 
   {
     path:'**',
+    title: 'Not Found',
     component: NopagefoundComponent
   }
 ];
