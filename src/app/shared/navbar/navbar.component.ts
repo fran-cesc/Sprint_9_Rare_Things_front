@@ -43,6 +43,7 @@ export class NavbarComponent {
       password: '',
       accessToken: ''
     });
-    this.router.navigate(['/home']);
+    this.router.navigate(['pages/home']);
+    alert('You have been logged out');
   }
 }
