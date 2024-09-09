@@ -18,7 +18,11 @@
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets", "src/assets/img/favicon.ico"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/assets/img/favicon.ico"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/lib/animate/animate.min.css",
