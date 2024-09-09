@@ -56,7 +56,7 @@ export class LoginComponent {
         this.userForm.reset();
         alert("User logged in successfuly");
         this.activeModal.close();
-        this.router.navigate(['/home']);
+        this.router.navigate(['pages/home']);
       }
     }
     catch (error){

@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, WritableSignal, type OnInit } from '@angular/core';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ThingsService } from '../../services/things.service';
-import { Thing } from '../../interfaces/things.interface';
-import { VoteService } from '../../services/vote.service';
-import { UsersService } from '../../services/users.service';
-import { User } from '../../interfaces/user';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
+import { Thing } from '../../../interfaces/things.interface';
+import { User } from '../../../interfaces/user';
+import { ThingsService } from '../../../services/things.service';
+import { UsersService } from '../../../services/users.service';
+import { VoteService } from '../../../services/vote.service';
+import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-thing-page',
@@ -16,7 +16,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './thing-page.component.html',
   styleUrl: './thing-page.component.css',
 })
-export class ThingPageComponent implements OnInit {
+export default class ThingPageComponent implements OnInit {
   public id!: number;
   public currentThing?: Thing;
   public currentUser!: User;
@@ -47,7 +47,7 @@ export class ThingPageComponent implements OnInit {
   }
 
   public goBack() {
-    this.router.navigate(['things']);
+    this.router.navigate(['/pages/things-list']);
   }
 
   public userVote(user_id: number, thing_id: number, value: number) {
