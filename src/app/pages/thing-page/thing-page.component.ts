@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, WritableSignal, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { environment } from '../../../../environments/environment';
-import { Thing } from '../../../interfaces/things.interface';
-import { User } from '../../../interfaces/user';
-import { ThingsService } from '../../../services/things.service';
-import { UsersService } from '../../../services/users.service';
-import { VoteService } from '../../../services/vote.service';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
+import { environment } from '../../../environments/environment';
+import { Thing } from '../../interfaces/things.interface';
+import { User } from '../../interfaces/user';
+import { ThingsService } from '../../services/things.service';
+import { UsersService } from '../../services/users.service';
+import { VoteService } from '../../services/vote.service';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-thing-page',

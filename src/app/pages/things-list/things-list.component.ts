@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
-import { NavbarComponent } from '../../../shared/navbar/navbar.component';
-import { environment } from '../../../../environments/environment';
-import { ThingsService } from '../../../services/things.service';
-import { Thing } from '../../../interfaces/things.interface';
+import { environment } from '../../../environments/environment';
+import { Thing } from '../../interfaces/things.interface';
+import { ThingsService } from '../../services/things.service';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
     selector: 'app-things-list',

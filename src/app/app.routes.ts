@@ -1,41 +1,40 @@
 import { Routes } from '@angular/router';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
+import PagesComponent from './pages/pages.component';
 
 export const routes: Routes = [
 
   {
     path: 'pages',
-    loadComponent: () => import('./pages/pages/pages.component'),
-    // component: PagesComponent,
+    component: PagesComponent,
     children: [
       {
         path: '',
         redirectTo: 'home',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'home',
         title: 'Home',
-        loadComponent: () => import('./pages/pages/home/home.component'),
+        loadComponent: () => import('./pages/home/home.component'),
       },
       {
         path: 'things-list',
         title: 'Things List',
-        loadComponent: () => import('./pages/pages/things-list/things-list.component'),
+        loadComponent: () => import('./pages/things-list/things-list.component'),
       },
       {
         path: 'thing-page/:thing_id',
         title: 'Thing',
-        loadComponent: () => import('./pages/pages/thing-page/thing-page.component'),
+        loadComponent: () => import('./pages/thing-page/thing-page.component'),
       }
     ]
   },
   {
-    path: '',
+    path:'',
     redirectTo: 'pages/home',
     pathMatch: 'full'
   },
-
   {
     path:'**',
     title: 'Not Found',
