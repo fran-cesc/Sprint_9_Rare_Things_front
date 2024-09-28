@@ -61,7 +61,9 @@ export class AddThingComponent implements OnInit{
   }
 
   onImageLoad(event: any){
-    this.file = event.target.files[0];
+    if (event){
+      this.file = event.target.files[0];
+    }
   }
 
   addThing(): void {

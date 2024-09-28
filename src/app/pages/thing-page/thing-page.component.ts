@@ -19,32 +19,29 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 export default class ThingPageComponent implements OnInit {
   public id!: number;
   public currentThing?: Thing;
-  public currentUser!: User;
+  public currentUser?: User | null;
   public baseUrl: string = environment.BACKEND_BASE_URL;
-  public isLogged?: boolean;
   public hasVoted?: boolean;
 
-  private route = inject(ActivatedRoute);
+  private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
   private router = inject(Router);
   private voteService = inject(VoteService);
-  private usersService = inject(UsersService);
+  private userService = inject(UsersService);
 
-  constructor() {}
-
-  ngOnInit(): void {
-    this.currentUser = this.usersService.currentUser();
-    console.log('thing-page-comp, ngOnInit, currentUser:', this.currentUser);
-
-    this.route.params.subscribe((params) => {
-      this.id = params?.['thing_id'];
+  constructor() {
+    this.userService.user$.subscribe((user) => {
+      this.currentUser = user;
+    });
+    this.activatedRoute.params.subscribe((params) => {
+      this.id = params['thing_id'];
       this.thingsService.getThing(this.id).subscribe((thing) => {
         this.currentThing = thing;
       });
     });
-
-    this.isLogged = this.usersService.isLogged();
   }
+
+  ngOnInit(): void {}
 
   public goBack() {
     this.router.navigate(['/pages/things-list']);
@@ -52,7 +49,7 @@ export default class ThingPageComponent implements OnInit {
 
   public userVote(user_id: number, thing_id: number, value: number) {
     this.voteService
-      .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
+      .hasUserVoted(this.currentUser!.user_id, this.currentThing!.thing_id)
       .subscribe((resp) => {
         this.hasVoted = resp.hasVoted;
 
@@ -63,13 +60,10 @@ export default class ThingPageComponent implements OnInit {
           return;
         }
 
-        this.voteService.vote(user_id, thing_id).subscribe(
-          (resp) => console.log('user voted:', resp),
-          (error) => {
-            console.error('Error registering vote:', error);
-            alert(error);
-          }
-        );
+        this.voteService.vote(user_id, thing_id).subscribe({
+          next: (resp) => console.log('user voted:', resp),
+          error: (error) => console.error('Error registering vote:', error),
+        });
 
         this.voteService.updateVotes(thing_id, value).subscribe(() => {
           this.thingsService.getThing(this.id).subscribe((thing) => {
@@ -79,7 +73,7 @@ export default class ThingPageComponent implements OnInit {
         });
       });
   }
-  comment(){
-    //TODO implement comments
+  comment() {
+    alert('Comments are not implemented yet, sorry!');
   }
 }

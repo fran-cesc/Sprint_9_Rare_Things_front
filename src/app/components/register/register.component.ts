@@ -10,6 +10,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
+import { LoginResponse, User } from '../../interfaces/user';
+import { switchMap, of, concatMap, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -20,16 +22,16 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-  public isEmailRegistered!: boolean;
+  public isEmailRegistered: boolean = false;
 
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
   customValidators = inject(ValidatorsService);
   router = inject(Router);
-  userForm: FormGroup;
+  userRegisterForm: FormGroup;
 
   constructor() {
-    this.userForm = new FormGroup({
+    this.userRegisterForm = new FormGroup({
       user_name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -46,47 +48,47 @@ export class RegisterComponent {
   }
 
   public isValidField(field: string) {
-    return this.customValidators.isValidField(this.userForm, field);
+    return this.customValidators.isValidField(this.userRegisterForm, field);
   }
 
   public getFieldError(form: FormGroup, field: string) {
-    return this.customValidators.getFieldError(this.userForm, field);
+    return this.customValidators.getFieldError(this.userRegisterForm, field);
   }
 
-  public async onSubmit() {
-    try {
-      this.userForm.markAllAsTouched();
-      if (this.userForm.invalid) {
-        return;
-      }
 
-      const userMail = await this.userForm.get('email')!.value;
+  onSubmit() {
+    const { email, password } = this.userRegisterForm.value;
 
-      this.isEmailRegistered = await this.usersService.isMailRegistered(
-        userMail
-      );
-
-      if (this.isEmailRegistered) {
-        alert('email is already registered');
-        this.userForm.reset();
-        this.activeModal.close();
-        return;
-      }
-
-      await this.usersService.register(this.userForm.value);
-      const response: any = await this.usersService.login(this.userForm.value);
-
-      if (!response.error) {
-        localStorage.setItem('token', response.token);
-        this.usersService.currentUser.set(response.results[0]);
-        this.userForm.reset();
-        alert('User registered successfuly');
-        this.activeModal.close();
-        this.router.navigate(['/home']);
-      }
-    } catch (error) {
-      throw error;
-    }
+    this.usersService.getUserByEmail(email).pipe( // Check if the user exists
+        switchMap((users: User[]) => {
+          if ((users.length === 0)) {
+            // If the user is not registered, proceed with the register
+            return this.usersService.register(this.userRegisterForm.value).pipe(
+              // After registering the user we log him in
+              concatMap(() => this.usersService.login(email, password))
+            );
+          } else {
+            // If the user is registered
+            alert('Email is already registered');
+            return of(null); // We stop the chain returning an empty observable
+          }
+        }),
+        catchError((error) => {
+          // Error handling for the entire sequence
+          console.error('Ocurrió un error:', error);
+          return of(null); // We stop the chain in case of error
+        })
+      )
+      .subscribe((loginResponse: LoginResponse) => {
+        if (loginResponse.token) {
+          localStorage.setItem('token', loginResponse.token);
+          this.usersService.user = loginResponse.results[0];
+          this.userRegisterForm.reset();
+          alert('User registered successfuly');
+          this.activeModal.close();
+          this.router.navigate(['/pages/home']);
+        }
+      });
   }
 
   public cancel() {
