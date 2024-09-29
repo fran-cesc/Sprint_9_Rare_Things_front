@@ -8,7 +8,7 @@ import { UsersService } from '../../services/users.service';
 import { RegisterComponent } from '../../components/register/register.component';
 import { LoginComponent } from '../../components/login/login.component';
 import { User } from '../../interfaces/user';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -19,17 +19,25 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent {
 
-
+  public isUserLogged: boolean = false;
   public currentUser?: User | null
   public router = inject(Router);
   private modalService = inject(NgbModal);
   private userService = inject(UsersService)
 
-  constructor(){
-
-    this.userService.user$.subscribe( (user) => {
-    this.currentUser = user;
-   })
+  constructor() {
+    this.userService.isUserLogged().pipe(
+      switchMap(isLogged => {
+        this.isUserLogged = isLogged;
+        if (isLogged) {
+          return this.userService.user$;
+        } else {
+          return of(null);
+        }
+      })
+    ).subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   addThing(){
@@ -46,9 +54,6 @@ export class NavbarComponent {
   }
 
   public logout(){
-    localStorage.removeItem('token');
-    this.userService.user = null;
-    this.router.navigate(['pages/home']);
-    alert('You have been logged out');
+    this.userService.logout();
   }
 }

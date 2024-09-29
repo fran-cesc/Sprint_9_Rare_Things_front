@@ -9,13 +9,13 @@
       <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a routerLink="home" class="nav-item nav-link" routerLinkActive="active">Home</a>
           <a routerLink="things-list" class="nav-item nav-link" routerLinkActive="active">List</a>
-          <a *ngIf="currentUser" routerLink="" class="nav-item nav-link" routerLinkActive="active">{{ this.currentUser.user_name}}</a>
+          <a *ngIf="isUserLogged" routerLink="" class="nav-item nav-link" routerLinkActive="active">{{ this.currentUser!.user_name }}</a>
           <!-- <a routerLink="map" class="nav-item nav-link" routerLinkActive="active">Categories</a> -->
       </div>
-      <a *ngIf="!currentUser" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+      <a *ngIf="!isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
         id="login" (click)="open($event)">Login</a>
-      <button *ngIf="currentUser" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
-      <a *ngIf="currentUser" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
+      <button *ngIf="isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
+      <a *ngIf="isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
       (click)="logout()">Logout</a>
 
   </div>
