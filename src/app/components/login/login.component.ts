@@ -12,6 +12,7 @@ import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
 import { LoginResponse } from '../../interfaces/user';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent {
   customValidators = inject(ValidatorsService);
   router = inject(Router);
   modalService = inject(NgbModal);
+  alertService = inject(AlertService);
 
   public userLoginForm: FormGroup;
 
@@ -56,21 +58,21 @@ export class LoginComponent {
       return;
     }
 
-    const { email, password } = this.userLoginForm.value
+    const { email, password } = this.userLoginForm.value;
 
-    this.usersService.login( email, password ).subscribe({
+    this.usersService.login(email, password).subscribe({
       next: (response: LoginResponse) => {
         localStorage.setItem('token', response.token);
         this.usersService.user = response.results[0];
         console.log('user:', response.results[0]);
         this.userLoginForm.reset();
-        alert('User logged in successfuly');
+        this.alertService.showAlert({text:'User logged in successfuly'})
         this.activeModal.close();
         this.router.navigate(['pages/home']);
       },
       error: (error: Error) => {
         console.log(error);
-        alert('Incorrect email or password');
+        this.alertService.showAlert({text:'Incorrect email or password'})
         this.userLoginForm.reset();
         this.activeModal.close();
       },
