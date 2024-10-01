@@ -8,6 +8,7 @@ import { ThingsService } from '../../services/things.service';
 import { UsersService } from '../../services/users.service';
 import { VoteService } from '../../services/vote.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-thing-page',
@@ -28,6 +29,7 @@ export default class ThingPageComponent implements OnInit {
   private router = inject(Router);
   private voteService = inject(VoteService);
   private userService = inject(UsersService);
+  private alertService = inject(AlertService);
 
   constructor() {
     this.userService.user$.subscribe((user) => {
@@ -56,7 +58,7 @@ export default class ThingPageComponent implements OnInit {
         console.log('userVote hasVoted:', this.hasVoted);
 
         if (this.hasVoted) {
-          alert('you have already voted this Thing');
+          this.alertService.showAlert({text:'you have already voted this Thing', icon:'warning'});
           return;
         }
 
@@ -68,12 +70,14 @@ export default class ThingPageComponent implements OnInit {
         this.voteService.updateVotes(thing_id, value).subscribe(() => {
           this.thingsService.getThing(this.id).subscribe((thing) => {
             this.currentThing = thing;
-            alert('Thank you for voting!');
+            this.alertService.showAlert({text:'Thank you for voting!', icon:'success'});
           });
         });
       });
   }
   comment() {
-    alert('Comments are not implemented yet, sorry!');
+    setTimeout(() => {
+      this.alertService.showAlert({text:'Comments are not yet implemented, sorry', icon:'info'});
+    }, 100);
   }
 }

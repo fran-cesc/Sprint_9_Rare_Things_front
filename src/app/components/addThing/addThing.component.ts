@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ValidatorsService } from '../../services/validators.service.js';
 import { ThingsService } from '../../services/things.service.js';
+import { AlertService } from '../../services/alert.service.js';
 
 @Component({
   selector: 'app-addThing',
@@ -22,6 +23,8 @@ import { ThingsService } from '../../services/things.service.js';
 export class AddThingComponent implements OnInit{
 
   public file: any;
+
+  alertService = inject(AlertService)
 
   public thingForm: FormGroup = new FormGroup({
     thing_title: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -81,13 +84,13 @@ export class AddThingComponent implements OnInit{
 
     this.thingsService.addThing(fd).subscribe({
       next: (response) => {
-        alert(`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`);
+        this.alertService.showAlert({text:`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`, icon:'success'})
         this.activeModal.close();
         this.thingForm.reset();
       },
       error: (error) => {
         console.error('Error:', error);
-        alert('Error adding thing. Please try again.');
+        this.alertService.showAlert({text:'Error adding thing. Please try again.', icon:'error'})
       }
     });
   };

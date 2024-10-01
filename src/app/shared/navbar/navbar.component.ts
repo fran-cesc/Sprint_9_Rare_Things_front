@@ -8,7 +8,8 @@ import { UsersService } from '../../services/users.service';
 import { RegisterComponent } from '../../components/register/register.component';
 import { LoginComponent } from '../../components/login/login.component';
 import { User } from '../../interfaces/user';
-import { Observable, of, switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +25,7 @@ export class NavbarComponent {
   public router = inject(Router);
   private modalService = inject(NgbModal);
   private userService = inject(UsersService)
+  private alertService = inject(AlertService)
 
   constructor() {
     this.userService.isUserLogged().pipe(

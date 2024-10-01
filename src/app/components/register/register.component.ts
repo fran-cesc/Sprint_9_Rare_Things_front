@@ -12,6 +12,7 @@ import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { LoginResponse, User } from '../../interfaces/user';
 import { switchMap, of, concatMap, catchError } from 'rxjs';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +29,8 @@ export class RegisterComponent {
   usersService = inject(UsersService);
   customValidators = inject(ValidatorsService);
   router = inject(Router);
+  alertService = inject(AlertService);
+
   userRegisterForm: FormGroup;
 
   constructor() {
@@ -69,7 +72,7 @@ export class RegisterComponent {
             );
           } else {
             // If the user is registered
-            alert('Email is already registered');
+            this.alertService.showAlert({text:'Email is already registered', icon:'warning'})
             return of(null); // We stop the chain returning an empty observable
           }
         }),
@@ -84,7 +87,7 @@ export class RegisterComponent {
           localStorage.setItem('token', loginResponse.token);
           this.usersService.user = loginResponse.results[0];
           this.userRegisterForm.reset();
-          alert('User registered successfuly');
+          this.alertService.showAlert({text:'User registered successfuly', icon:'success'});
           this.activeModal.close();
           this.router.navigate(['/pages/home']);
         }

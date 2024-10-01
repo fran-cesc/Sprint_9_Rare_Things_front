@@ -4,6 +4,7 @@ import { User, UserLoginForm } from '../interfaces/user';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class UsersService {
 
   private http = inject(HttpClient);
   private router = inject(Router);
+  private alertService = inject(AlertService);
 
   constructor() {
     this.currentUser = {
@@ -33,7 +35,6 @@ export class UsersService {
   set user(user: User | null) {
     this.currentUser = user;
     this._user$.next(this.currentUser);
-    console.log('service currentUser: ', this.currentUser);
   }
 
   get user$() {
@@ -61,8 +62,10 @@ export class UsersService {
     this._isUserLogged$.next(false);
     this.currentUser = null;
     this._user$.next(this.currentUser);
+    setTimeout(() => {
+      this.alertService.showAlert({text: 'You have been logged out', icon: 'success'});
+    }, 100);
     this.router.navigate(['pages/home']);
-    alert('You have been logged out');
   }
 
   public getUserByEmail(email: string): Observable<any> {
