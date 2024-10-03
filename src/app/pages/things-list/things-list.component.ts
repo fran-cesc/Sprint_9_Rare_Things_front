@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
@@ -18,19 +18,19 @@ export default class ThingsListComponent{
   public things: Thing[] = [];
   public baseUrl: string = environment.BACKEND_BASE_URL;
 
-  constructor( private thingsService: ThingsService){}
+  private thingsService = inject(ThingsService)
 
-  //TODO lazy loading
+  constructor(){}
+
   ngOnInit(): void{
     this.thingsService.getAllThings()
-      .subscribe(
-        (things) => {
-          this.things = things
+      .subscribe({
+        next: (things) => {
+          this.things = things;
         },
-        (error) => {
-          //TODO optimize error
-          console.log("Could not retrieve things list");
+        error: (error) => {
+          console.log("Could not retrieve things list. Error: ", error);
         }
-      )
+      });
   }
 }

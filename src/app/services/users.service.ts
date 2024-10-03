@@ -22,13 +22,6 @@ export class UsersService {
 
   constructor() {
     this.currentUser = undefined;
-    // {
-    //   user_id: 0,
-    //   user_name: '',
-    //   email: '',
-    //   password: '',
-    //   accessToken: '',
-    // };
     this._user$ = new BehaviorSubject<User | undefined>(this.currentUser);
     this._isUserLogged$ = new BehaviorSubject<boolean>(false);
   }
@@ -49,22 +42,24 @@ export class UsersService {
   public login(email: string, password: string): Observable<any> {
     const body = { email, password };
     return this.http.post<any>(`${this.baseUrl}/login`, body).pipe(
-      tap( response => {
+      tap((response) => {
         if (response.token) {
           this._isUserLogged$.next(true);
         }
       })
-
-    )
+    );
   }
 
-  public logout(){
+  public logout() {
     localStorage.removeItem('token');
     this._isUserLogged$.next(false);
     this.currentUser = undefined;
     this._user$.next(this.currentUser);
     setTimeout(() => {
-      this.alertService.showAlert({text: 'You have been logged out', icon: 'success'});
+      this.alertService.showAlert({
+        text: 'You have been logged out',
+        icon: 'success',
+      });
     }, 100);
     this.router.navigate(['pages/home']);
   }
@@ -73,7 +68,7 @@ export class UsersService {
     return this.http.get<User>(`${this.baseUrl}/users/${email}`);
   }
 
-  isUserLogged(): Observable<boolean>{
+  isUserLogged(): Observable<boolean> {
     return this._isUserLogged$.asObservable();
   }
 }

@@ -16,20 +16,22 @@ import { User } from '../../interfaces/user.js';
 @Component({
   selector: 'app-addThing',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './addThing.component.html',
   styleUrl: './addThing.component.css',
 })
-
-export class AddThingComponent implements OnInit{
-
+export class AddThingComponent implements OnInit {
   public file: any;
   public currentUser: User | undefined;
 
   private alertService = inject(AlertService);
   private userService = inject(UsersService);
 
-  constructor(){
+  private activeModal = inject(NgbActiveModal);
+  private validatorsService = inject(ValidatorsService);
+  private thingsService = inject(ThingsService);
+
+  constructor() {
     this.userService.user$.subscribe((user) => {
       this.currentUser = user;
     });
@@ -38,23 +40,20 @@ export class AddThingComponent implements OnInit{
   ngOnInit(): void {
     this.thingForm.reset();
     this.thingForm.get('thing_title')!.markAsUntouched();
-
   }
 
   public thingForm: FormGroup = new FormGroup({
-    thing_title: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    location: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    thing_title: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
+    location: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+    ]),
     category: new FormControl('', Validators.required),
-    img_name: new FormControl('', Validators.required)
+    img_name: new FormControl('', Validators.required),
   });
-
-
-  activeModal= inject(NgbActiveModal);
-  validatorsService= inject(ValidatorsService);
-  thingsService= inject(ThingsService);
-
-
-
 
   isValidField(field: string): boolean | null {
     return this.validatorsService.isValidField(this.thingForm, field);
@@ -68,17 +67,13 @@ export class AddThingComponent implements OnInit{
     for (const key of Object.keys(errors)) {
       if (key === 'required') {
         return 'This field is required';
-      };
+      }
       if (key === 'minlength') {
         return `This field must have ${errors['minlength'].requiredLength} caracters minimum`;
-      };
+      }
     }
     return null;
   }
-
-  // onImageLoad(event: any){
-  //     this.file = event.target.files[0];
-  // }
 
   onImageLoad(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -88,7 +83,6 @@ export class AddThingComponent implements OnInit{
   }
 
   addThing(): void {
-
     if (this.thingForm.invalid) {
       this.thingForm.markAllAsTouched();
       return;
@@ -101,27 +95,30 @@ export class AddThingComponent implements OnInit{
     fd.append('location', this.thingForm.value.location);
     fd.append('category', this.thingForm.value.category);
 
-
     this.thingsService.addThing(fd).subscribe({
       next: () => {
-              setTimeout(() => {
-                console.log(this.thingForm)
-                this.alertService.showAlert({text:'Thing added successfuly!', icon:'success'});
-              }, 100);
-              this.activeModal.close();
-              this.thingForm.reset();
-            },
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: 'Thing added successfuly!',
+            icon: 'success',
+          });
+        }, 100);
+        this.activeModal.close();
+        this.thingForm.reset();
+      },
       error: (error) => {
-                console.error('Error:', error);
-                setTimeout(() => {
-                  this.alertService.showAlert({text:'Error adding Thing. Please try again.', icon:'error'});
-                }, 100);
-              }
-      });
-  };
+        console.error('Error:', error);
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: 'Error adding Thing. Please try again.',
+            icon: 'error',
+          });
+        }, 100);
+      },
+    });
+  }
 
   closeModal() {
     this.activeModal.close();
-  };
-
+  }
 }

@@ -8,14 +8,13 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class ThingsService {
-
   private http = inject(HttpClient);
   public baseUrl = environment.BACKEND_BASE_URL;
 
   constructor() {}
 
-  getThing(thing_id: number): Observable<Thing>{
-    return this.http.get<Thing>(`${this.baseUrl}/things/${thing_id}`)
+  getThing(thing_id: number): Observable<Thing> {
+    return this.http.get<Thing>(`${this.baseUrl}/things/${thing_id}`);
   }
 
   getAllThings(): Observable<Thing[]> {

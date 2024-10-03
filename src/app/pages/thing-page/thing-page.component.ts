@@ -49,8 +49,12 @@ export default class ThingPageComponent implements OnInit {
     this.router.navigate(['/pages/things-list']);
   }
 
-  public userVote(user_id: number | undefined, thing_id: number, value: number) {
-    if ( this.currentUser === undefined ) {
+  public userVote(
+    user_id: number | undefined,
+    thing_id: number,
+    value: number
+  ) {
+    if (this.currentUser === undefined) {
       setTimeout(() => {
         this.alertService.showYouMustBeLoggedAlert();
       }, 100);
@@ -62,7 +66,10 @@ export default class ThingPageComponent implements OnInit {
         this.hasVoted = resp;
         if (this.hasVoted) {
           setTimeout(() => {
-            this.alertService.showAlert({text:'you have already voted this Thing', icon:'warning'});
+            this.alertService.showAlert({
+              text: 'you have already voted this Thing',
+              icon: 'warning',
+            });
           }, 100);
           return;
         }
@@ -76,7 +83,10 @@ export default class ThingPageComponent implements OnInit {
           this.thingsService.getThing(this.id).subscribe((thing) => {
             this.currentThing = thing;
             setTimeout(() => {
-              this.alertService.showAlert({text:'Thank you for voting!', icon:'success'});
+              this.alertService.showAlert({
+                text: 'Thank you for voting!',
+                icon: 'success',
+              });
             }, 100);
           });
         });
@@ -84,7 +94,10 @@ export default class ThingPageComponent implements OnInit {
   }
   comment() {
     setTimeout(() => {
-      this.alertService.showAlert({text:'Comments are not yet implemented, sorry', icon:'info'});
+      this.alertService.showAlert({
+        text: 'Comments are not yet implemented, sorry',
+        icon: 'info',
+      });
     }, 100);
   }
 }
