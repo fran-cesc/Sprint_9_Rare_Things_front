@@ -7,12 +7,12 @@
           <div class="bg-secondary d-flex flex-column flex-sm-row justify-content-between">
             <div class="d-flex align-items-center justify-content-center ">
               <div type="button" class="btn" style="border:none"
-              (click)="userVote(currentUser!.user_id, currentThing!.thing_id, 1)">
+              (click)="userVote(currentUser?.user_id, currentThing!.thing_id, 1)">
                 <i class="fa-solid fa-circle-up responsive-icon"></i>
               </div>
               <div class="responsive-text text-white">{{currentThing?.votes}}</div>
               <div type="button" class="btn" style="border:none"
-              (click)="userVote(currentUser!.user_id, currentThing!.thing_id, -1)">
+              (click)="userVote(currentUser?.user_id, currentThing!.thing_id, -1)">
                 <i class="fa-solid fa-circle-down responsive-icon"></i>
               </div>
             </div>

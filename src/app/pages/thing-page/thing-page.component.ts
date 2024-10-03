@@ -20,9 +20,9 @@ import { AlertService } from '../../services/alert.service';
 export default class ThingPageComponent implements OnInit {
   public id!: number;
   public currentThing?: Thing;
-  public currentUser?: User | null;
+  public currentUser: User | undefined;
   public baseUrl: string = environment.BACKEND_BASE_URL;
-  public hasVoted?: boolean;
+  public hasVoted: boolean = false;
 
   private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
@@ -49,16 +49,21 @@ export default class ThingPageComponent implements OnInit {
     this.router.navigate(['/pages/things-list']);
   }
 
-  public userVote(user_id: number, thing_id: number, value: number) {
+  public userVote(user_id: number | undefined, thing_id: number, value: number) {
+    if ( this.currentUser === undefined ) {
+      setTimeout(() => {
+        this.alertService.showYouMustBeLoggedAlert();
+      }, 100);
+      return;
+    }
     this.voteService
-      .hasUserVoted(this.currentUser!.user_id, this.currentThing!.thing_id)
+      .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
       .subscribe((resp) => {
-        this.hasVoted = resp.hasVoted;
-
-        console.log('userVote hasVoted:', this.hasVoted);
-
+        this.hasVoted = resp;
         if (this.hasVoted) {
-          this.alertService.showAlert({text:'you have already voted this Thing', icon:'warning'});
+          setTimeout(() => {
+            this.alertService.showAlert({text:'you have already voted this Thing', icon:'warning'});
+          }, 100);
           return;
         }
 
@@ -70,7 +75,9 @@ export default class ThingPageComponent implements OnInit {
         this.voteService.updateVotes(thing_id, value).subscribe(() => {
           this.thingsService.getThing(this.id).subscribe((thing) => {
             this.currentThing = thing;
-            this.alertService.showAlert({text:'Thank you for voting!', icon:'success'});
+            setTimeout(() => {
+              this.alertService.showAlert({text:'Thank you for voting!', icon:'success'});
+            }, 100);
           });
         });
       });

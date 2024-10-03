@@ -1,5 +1,5 @@
 export interface User {
-  user_id: number;
+  user_id: number | undefined;
   user_name: string;
   email: string;
   password: string;
@@ -23,3 +23,4 @@ export interface Result {
   email:     string;
   password:  string;
 }
+

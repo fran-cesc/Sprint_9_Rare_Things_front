@@ -66,13 +66,17 @@ export class LoginComponent {
         this.usersService.user = response.results[0];
         console.log('user:', response.results[0]);
         this.userLoginForm.reset();
-        this.alertService.showAlert({text:`User logged in successfuly`, icon:'success'})
+        setTimeout(() => {
+          this.alertService.showAlert({text:`User logged in successfuly`, icon:'success'});
+        }, 100);
         this.activeModal.close();
-        this.router.navigate(['pages/home']);
+        // this.router.navigate(['pages/home']);
       },
       error: (error: Error) => {
         console.log(error);
-        this.alertService.showAlert({text:'Incorrect email or password', icon: 'error'})
+        setTimeout(() => {
+          this.alertService.showAlert({text:'Incorrect email or password', icon: 'error'});
+        }, 100);
         this.userLoginForm.reset();
         this.activeModal.close();
       },

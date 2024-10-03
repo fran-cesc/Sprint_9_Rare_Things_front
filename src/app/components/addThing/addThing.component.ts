@@ -84,13 +84,18 @@ export class AddThingComponent implements OnInit{
 
     this.thingsService.addThing(fd).subscribe({
       next: (response) => {
-        this.alertService.showAlert({text:`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`, icon:'success'})
+        setTimeout(() => {
+          this.alertService.showAlert({text:`${this.thingForm.value.user_name} successfuly uploaded ${this.thingForm.value.thing_title}`, icon:'success'});
+        }, 100);
         this.activeModal.close();
         this.thingForm.reset();
       },
       error: (error) => {
         console.error('Error:', error);
-        this.alertService.showAlert({text:'Error adding thing. Please try again.', icon:'error'})
+        setTimeout(() => {
+          this.alertService.showAlert({text:'Error adding thing. Please try again.', icon:'error'});
+        }, 100);
+
       }
     });
   };

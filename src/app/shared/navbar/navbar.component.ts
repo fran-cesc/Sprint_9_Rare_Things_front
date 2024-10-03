@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { of, switchMap } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 import { AddThingComponent } from '../../components/addThing/addThing.component';
-import { UsersService } from '../../services/users.service';
-import { RegisterComponent } from '../../components/register/register.component';
 import { LoginComponent } from '../../components/login/login.component';
+import { RegisterComponent } from '../../components/register/register.component';
 import { User } from '../../interfaces/user';
-import { of, switchMap } from 'rxjs';
-import { AlertService } from '../../services/alert.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,11 +20,11 @@ import { AlertService } from '../../services/alert.service';
 export class NavbarComponent {
 
   public isUserLogged: boolean = false;
-  public currentUser?: User | null
+  public currentUser: User | undefined;
+
   public router = inject(Router);
   private modalService = inject(NgbModal);
   private userService = inject(UsersService)
-  private alertService = inject(AlertService)
 
   constructor() {
     this.userService.isUserLogged().pipe(
@@ -34,7 +33,7 @@ export class NavbarComponent {
         if (isLogged) {
           return this.userService.user$;
         } else {
-          return of(null);
+          return of(undefined);
         }
       })
     ).subscribe(user => {

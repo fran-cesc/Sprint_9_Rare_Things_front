@@ -1,10 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import swal from 'sweetalert2'
+import { LoginComponent } from '../components/login/login.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertService {
+
+  private modalService = inject(NgbModal);
 
   constructor() { }
 
@@ -21,10 +25,9 @@ export class AlertService {
       timerProgressBar: true,
       position: 'center',
       customClass: {
-        popup: 'swal-center-text'  // Apply custom class to the popup
+        popup: 'swal-center-text'
       },
       didOpen: () => {
-        // Manually handle clicks outside the toast
         document.addEventListener('click', (e: any) => {
           const swalContainer = swal.getPopup();
           if (swalContainer && !swalContainer.contains(e.target)) {
@@ -34,7 +37,25 @@ export class AlertService {
       }
     };
 
-    const swalOptions = Object.assign({}, defaultSwalOptions, customSwalOptions);  // Merge default and custom options
+    const swalOptions = Object.assign({}, defaultSwalOptions, customSwalOptions);  // Merge default and custom parameters
     swal.fire(swalOptions);
+  }
+
+  public showYouMustBeLoggedAlert(){
+    swal.fire({
+      icon: 'warning',
+      background: '#191C24',
+      color: '#ffffff',
+      toast: true,
+      text: "You must be logged in to vote",
+      confirmButtonText: "Login",
+      confirmButtonColor: '#EB1616',
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.modalService.open(LoginComponent);
+      }
+    });
   }
 }

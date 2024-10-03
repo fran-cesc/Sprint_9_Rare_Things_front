@@ -72,7 +72,9 @@ export class RegisterComponent {
             );
           } else {
             // If the user is registered
-            this.alertService.showAlert({text:'Email is already registered', icon:'warning'})
+            setTimeout(() => {
+              this.alertService.showAlert({text:'Email is already registered', icon:'warning'});
+            }, 100);
             return of(null); // We stop the chain returning an empty observable
           }
         }),
@@ -87,7 +89,9 @@ export class RegisterComponent {
           localStorage.setItem('token', loginResponse.token);
           this.usersService.user = loginResponse.results[0];
           this.userRegisterForm.reset();
-          this.alertService.showAlert({text:'User registered successfuly', icon:'success'});
+          setTimeout(() => {
+            this.alertService.showAlert({text:'User registered successfuly', icon:'success'});
+          }, 100);
           this.activeModal.close();
           this.router.navigate(['/pages/home']);
         }
