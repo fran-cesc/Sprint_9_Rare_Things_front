@@ -29,7 +29,7 @@ export class ThingsService {
     );
   }
 
-  addThing(fdThing: FormData): Observable<FormData> {
+  addThing(fdThing: FormData): Observable<any> {
     return this.http.post<FormData>(`${this.baseUrl}/things`, fdThing);
   }
 }
