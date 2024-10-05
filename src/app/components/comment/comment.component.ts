@@ -56,8 +56,10 @@ export class CommentComponent {
                 icon: 'success',
               });
             }, 100);
-            this.router.navigate([`/pages/thing-page/${this.thing_id}`]);
             this.activeModal.close();
+            this.reloadComponent();
+
+
       },
       error: (error: Error) => {
             console.log(error);
@@ -70,6 +72,13 @@ export class CommentComponent {
             this.userCommentForm.reset();
             this.activeModal.close();
       },
+    });
+  }
+
+  reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
     });
   }
 

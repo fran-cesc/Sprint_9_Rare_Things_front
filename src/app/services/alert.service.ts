@@ -44,23 +44,46 @@ export class AlertService {
     swal.fire(swalOptions);
   }
 
-  public showYouMustBeLoggedAlert() {
-    swal
-      .fire({
-        icon: 'warning',
-        background: '#191C24',
-        color: '#ffffff',
-        toast: true,
-        text: 'You must be logged in to vote',
-        confirmButtonText: 'Login',
-        confirmButtonColor: '#EB1616',
-        showCancelButton: true,
-        cancelButtonText: 'Cancel',
-      })
-      .then((result) => {
+  public showYouMustBeLoggedAlert(customSwalOptions: any) {
+    const defaultSwalOptions = {
+      background: '#191C24',
+      color: '#ffffff',
+      toast: true,
+      confirmButtonText: 'Login',
+      confirmButtonColor: '#EB1616',
+      showCancelButton: true,
+      cancelButtonText: 'Cancel',
+     }
+
+      const swalOptions = Object.assign(
+        {},
+        defaultSwalOptions,
+        customSwalOptions
+      );
+
+      swal.fire(swalOptions).then((result) => {
         if (result.isConfirmed) {
           this.modalService.open(LoginComponent);
         }
       });
+
   }
+
+  // public showYouMustBeLoggedAlert() {
+  //   swal
+  //     .fire({
+        // background: '#191C24',
+  //       color: '#ffffff',
+  //       toast: true,
+  //       confirmButtonText: 'Login',
+  //       confirmButtonColor: '#EB1616',
+  //       showCancelButton: true,
+  //       cancelButtonText: 'Cancel',
+  //     })
+  //     .then((result) => {
+  //       if (result.isConfirmed) {
+  //         this.modalService.open(LoginComponent);
+  //       }
+  //     });
+  // }
 }

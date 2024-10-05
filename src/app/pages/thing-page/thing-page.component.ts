@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -18,7 +18,7 @@ import { CommentService } from '../../services/comment.service';
 @Component({
   selector: 'app-thing-page',
   standalone: true,
-  imports: [CommonModule, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, DatePipe, TitleCasePipe],
   templateUrl: './thing-page.component.html',
   styleUrl: './thing-page.component.css',
 })
@@ -69,7 +69,7 @@ export default class ThingPageComponent implements OnInit {
   ) {
     if (this.currentUser === undefined) {
       setTimeout(() => {
-        this.alertService.showYouMustBeLoggedAlert();
+        this.alertService.showYouMustBeLoggedAlert({text: 'You must be logged in to vote', icon: 'warning'});
       }, 100);
       return;
     }
@@ -109,12 +109,8 @@ export default class ThingPageComponent implements OnInit {
   comment(thing_id: number, user_id: number | undefined) {
     if (!this.currentUser){
       setTimeout(() => {
-        this.alertService.showAlert({
-          text: 'You must be logged in to comment',
-          icon: 'warning',
-        });
+        this.alertService.showYouMustBeLoggedAlert({text: 'You must be logged in to comment', icon: 'warning'});
       }, 100);
-
       return;
     }
 

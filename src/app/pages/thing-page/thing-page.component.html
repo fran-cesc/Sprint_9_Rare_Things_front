@@ -32,13 +32,22 @@
           </div>
       </div>
     </div>
-    <div class="">
-      @for (comment of currentComments; track comment.comment_id ){
-            <!-- <div class="col-sm-12 col-md-10 wow fadeInUp p-2 m-auto" data-wow-delay="0.1s"> -->
-            <div class="col-sm-12 col-md-10 wow fadeInUp p-2 m-auto bg-secondary" data-wow-delay="">
-                <p class="">{{ comment.comment }}</p>
+    @for (comment of currentComments; track comment.comment_id ){
+      <div class="row">
+        <div class="col-sm-12 col-md-10 wow fadeInUp p-2 m-auto" data-wow-delay="1s">
+          <div class="w-100 bg-secondary rounded-3  d-flex flex-column">
+            <div class="comment-data d-flex justify-content-start m-2">
+              <div class="">
+                   <small class="text-muted m-2"><em>Posted by: {{ comment.user_name | titlecase }}</em></small>
+              </div>
+              <div class="">
+                <small class="text-muted m-4"><em>{{ comment.date | date:'dd/MM/YY HH:mm' }}</em></small>
+              </div>
             </div>
+            <small class="m-1 p-2 responsive-text">{{ comment.comment }}</small>
+          </div>
+        </div>
+      </div>
       }
-    </div>
 </div>
 
