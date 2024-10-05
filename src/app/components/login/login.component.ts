@@ -11,7 +11,7 @@ import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
-import { LoginResponse } from '../../interfaces/user';
+import { LoginResponse } from '../../interfaces/user.interface';
 import { AlertService } from '../../services/alert.service';
 
 @Component({

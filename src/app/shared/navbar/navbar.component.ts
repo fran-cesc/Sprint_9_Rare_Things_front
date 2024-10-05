@@ -7,7 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AddThingComponent } from '../../components/addThing/addThing.component';
 import { LoginComponent } from '../../components/login/login.component';
 import { RegisterComponent } from '../../components/register/register.component';
-import { User } from '../../interfaces/user';
+import { User } from '../../interfaces/user.interface';
 import { UsersService } from '../../services/users.service';
 
 @Component({

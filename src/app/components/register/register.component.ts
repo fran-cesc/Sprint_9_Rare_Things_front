@@ -10,7 +10,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
-import { LoginResponse, User } from '../../interfaces/user';
+import { LoginResponse, User } from '../../interfaces/user.interface';
 import { switchMap, of, concatMap, catchError } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
 
@@ -75,7 +75,11 @@ export class RegisterComponent {
             setTimeout(() => {
               this.alertService.showAlert({text:'Email is already registered', icon:'warning'});
             }, 100);
-            return of(null); // We stop the chain returning an empty observable
+            this.userRegisterForm.patchValue({
+              email: ''
+          });
+
+          return of(null); // We stop the chain returning an empty observable
           }
         }),
         catchError((error) => {

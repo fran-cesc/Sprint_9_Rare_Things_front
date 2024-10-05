@@ -1,0 +1,35 @@
+<div class="col-lmb-22 wow fadeIn" data-wow-delay="0.1s">
+  <div class="bg-secondary p-5">
+    <h3 class="mb-4">Write your comment</h3>
+    <form [formGroup]="userCommentForm" (ngSubmit)="onSubmit()" ngbAutofocus>
+
+      <div class="row my-2">
+        <label for="email" class="col-3 col-form-label">Comment:</label>
+        <div class="col-9">
+          <textarea
+            class="form-control bg-transparent"
+            id="text"
+            formControlName="comment"
+            [ngClass]="{
+              'is-valid': userCommentForm.get('comment')!.valid && userCommentForm.get('comment')!.touched,
+              'is-invalid': userCommentForm.get('comment')!.invalid && userCommentForm.get('comment')!.touched
+            }">
+          </textarea>
+            <!-- <div *ngIf="isValidField('email')" class="form-text text-danger">
+              {{ getFieldError(userCommentForm, "email") }}
+            </div> -->
+        </div>
+      </div>
+
+
+      <div class="row my-2">
+        <div class="col-3 mt-4">
+          <button class="btn btn-secondary text-primary w-100 py-3" type="button" (click)="cancel()">Cancel</button>
+        </div>
+        <div class="col-9 mt-4">
+          <button class="btn btn-primary w-100 py-3" type="submit">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

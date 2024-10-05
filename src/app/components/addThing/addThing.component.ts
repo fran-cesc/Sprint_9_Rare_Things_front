@@ -11,7 +11,7 @@ import { ValidatorsService } from '../../services/validators.service.js';
 import { ThingsService } from '../../services/things.service.js';
 import { AlertService } from '../../services/alert.service.js';
 import { UsersService } from '../../services/users.service.js';
-import { User } from '../../interfaces/user.js';
+import { User } from '../../interfaces/user.interface.js';
 
 @Component({
   selector: 'app-addThing',

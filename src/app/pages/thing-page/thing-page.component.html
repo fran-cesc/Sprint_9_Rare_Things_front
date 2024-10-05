@@ -25,13 +25,20 @@
               </div>
             </div>
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-terciary btn-block mt-2 responsive-text" (click)="comment()"><i class="fa-regular fa-message fa-2x"></i>
+                <button type="button" class="btn btn-terciary btn-block mt-2 responsive-text" (click)="comment(currentThing!.thing_id, currentUser?.user_id)"><i class="fa-regular fa-message fa-2x"></i>
                   </button>
                 <button type="button" class="btn btn-primary btn-block m-2 btn-sm responsive-text" (click)="goBack()">Back</button>
             </div>
           </div>
       </div>
     </div>
+    <div class="">
+      @for (comment of currentComments; track comment.comment_id ){
+            <!-- <div class="col-sm-12 col-md-10 wow fadeInUp p-2 m-auto" data-wow-delay="0.1s"> -->
+            <div class="col-sm-12 col-md-10 wow fadeInUp p-2 m-auto bg-secondary" data-wow-delay="">
+                <p class="">{{ comment.comment }}</p>
+            </div>
+      }
+    </div>
 </div>
 
-<!-- TODO media query button back and comment responsive-->
