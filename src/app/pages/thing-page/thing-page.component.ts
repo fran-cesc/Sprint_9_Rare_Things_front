@@ -13,6 +13,7 @@ import { AlertService } from '../../services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentComponent } from '../../components/comment/comment.component';
 import { CommentService } from '../../services/comment.service';
+import { tap, switchMap } from 'rxjs';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { CommentService } from '../../services/comment.service';
   styleUrl: './thing-page.component.css',
 })
 export default class ThingPageComponent implements OnInit {
-  public id!: number;
+  public currentId!: number;
   public currentThing?: Thing;
   public currentUser?: User;
   public baseUrl: string = environment.BACKEND_BASE_URL;
@@ -47,17 +48,21 @@ export default class ThingPageComponent implements OnInit {
       this.currentUser = user;
     });
 
-    this.activatedRoute.params.subscribe((params) => {
-      this.id = params['thing_id'];
-      this.thingsService.getThing(this.id).subscribe((thing) => {
-        this.currentThing = thing;
-            this.commentService.getCommentsByThing(this.currentThing?.thing_id).subscribe( (comments: Comment[]) => {
-              this.currentComments = comments;
-            });
-      });
-    });
-  };
-
+  this.activatedRoute.params
+  .pipe(
+    tap((params) => {
+      this.currentId = +params['thing_id'];  // Keep currentId updated
+    }),
+    switchMap((params) => this.thingsService.getThing(+params['thing_id'])),
+    tap((thing) => {
+      this.currentThing = thing;  // Update the current thing
+    }),
+    switchMap((thing) => this.commentService.getCommentsByThing(thing.thing_id))  // Fetch comments for the current thing
+  )
+  .subscribe((comments: Comment[]) => {
+    this.currentComments = comments;  // Update comments
+  });
+}
   public goBack() {
     this.router.navigate(['/pages/things-list']);
   }
@@ -73,38 +78,76 @@ export default class ThingPageComponent implements OnInit {
       }, 100);
       return;
     }
+
     this.voteService
-      .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
-      .subscribe((resp) => {
-        this.hasVoted = resp;
+    .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
+    .pipe(
+      tap((hasVoted) => {
+        this.hasVoted = hasVoted;
+
         if (this.hasVoted) {
           setTimeout(() => {
             this.alertService.showAlert({
-              text: 'you have already voted this Thing',
+              text: 'You have already voted for this Thing',
               icon: 'warning',
             });
           }, 100);
-          return;
+          throw new Error('User has already voted');
         }
-
-        this.voteService.vote(user_id, thing_id).subscribe({
-          next: (resp) => console.log('user voted:', resp),
-          error: (error) => console.error('Error registering vote:', error),
-        });
-
-        this.voteService.updateVotes(thing_id, value).subscribe( () => {
-          this.thingsService.getThing(this.id).subscribe( (thing) => {
-            this.currentThing = thing;
-            setTimeout(() => {
-              this.alertService.showAlert({
-                text: 'Thank you for voting!',
-                icon: 'success',
-              });
-            }, 100);
+      }),
+      switchMap(() => this.voteService.vote(user_id, thing_id)),    // First, register the vote
+      switchMap(() => this.voteService.updateVotes(thing_id, value)), // Then, update the vote count
+      switchMap(() => this.thingsService.getThing(this.currentId)),   // Fetch updated thing data
+      tap((updatedThing) => {
+        this.currentThing = updatedThing;
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: 'Thank you for voting!',
+            icon: 'success',
           });
-        });
-      });
-  }
+        }, 100);
+      })
+    )
+    .subscribe({
+      error: (error) => {
+        if (error.message !== 'User has already voted') {
+          console.error('Error registering vote:', error);
+        }
+      }
+    });
+
+    // this.voteService
+    //   .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
+    //   .subscribe((resp) => {
+    //     this.hasVoted = resp;
+    //     if (this.hasVoted) {
+    //       setTimeout(() => {
+    //         this.alertService.showAlert({
+    //           text: 'you have already voted this Thing',
+    //           icon: 'warning',
+    //         });
+    //       }, 100);
+    //       return;
+    //     }
+
+    //     this.voteService.vote(user_id, thing_id).subscribe({
+    //       next: (resp) => console.log('user voted:', resp),
+    //       error: (error) => console.error('Error registering vote:', error),
+    //     });
+
+    //     this.voteService.updateVotes(thing_id, value).subscribe( () => {
+    //       this.thingsService.getThing(this.currentId).subscribe( (thing) => {
+    //         this.currentThing = thing;
+    //         setTimeout(() => {
+    //           this.alertService.showAlert({
+    //             text: 'Thank you for voting!',
+    //             icon: 'success',
+    //           });
+    //         }, 100);
+    //       });
+    //     });
+    //   });
+    }
 
   comment(thing_id: number, user_id: number | undefined) {
     if (!this.currentUser){
