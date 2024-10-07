@@ -19,3 +19,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
 }
+
+.containerdiv{
+  height: 250px;
+}
+
+.imgdiv{
+ background-size: cover;
+ background-position: center;
+}
