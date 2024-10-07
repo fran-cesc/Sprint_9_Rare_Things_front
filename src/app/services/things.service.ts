@@ -21,6 +21,10 @@ export class ThingsService {
     return this.http.get<Thing[]>(`${this.baseUrl}/things`);
   }
 
+  getAllThingsFromUser(user_id: number): Observable<Thing[]> {
+    return this.http.get<Thing[]>(`${this.baseUrl}/things/user/${user_id}`)
+  }
+
   delThing(thing_id: number): Observable<boolean> {
     return this.http.delete(`${this.baseUrl}/things/${thing_id}`).pipe(
       catchError((err) => of(false)),

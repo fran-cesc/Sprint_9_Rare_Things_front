@@ -65,7 +65,11 @@ export class UsersService {
   }
 
   public getUserByEmail(email: string): Observable<any> {
-    return this.http.get<User>(`${this.baseUrl}/users/${email}`);
+    return this.http.get<User>(`${this.baseUrl}/users/email/${email}`);
+  }
+
+  public getUserById(id: number): Observable<any> {
+    return this.http.get<User>(`${this.baseUrl}/users/id/${id}`);
   }
 
   isUserLogged(): Observable<boolean> {

@@ -9,7 +9,8 @@
       <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a routerLink="home" class="nav-item nav-link" routerLinkActive="active">Home</a>
           <a routerLink="things-list" class="nav-item nav-link" routerLinkActive="active">List</a>
-          <a *ngIf="isUserLogged" routerLink="" class="nav-item nav-link" routerLinkActive="active">{{ this.currentUser!.user_name }}</a>
+          <a *ngIf="isUserLogged" [routerLink]="['/pages/user', currentUser?.user_id]" class="nav-item nav-link"
+              routerLinkActive="active"  >{{ this.currentUser!.user_name }}</a>
       </div>
       <a *ngIf="!isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
         id="login" (click)="open($event)">Login</a>
@@ -19,6 +20,7 @@
 
   </div>
 </nav>
+
 
 
 

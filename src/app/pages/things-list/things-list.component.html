@@ -6,7 +6,7 @@
       <div class="row g-4">
         @for (thing of things; track thing.thing_id){
         <a class="col-lg-4 col-md-6 wow fadeInUp containerdiv" data-wow-delay="0.1s"
-          [routerLink]="['/pages/thing-page',thing.thing_id]" >
+          [routerLink]="['/pages/thing-page', thing.thing_id]" >
           <div class="service-item position-relative overflow-hidden bg-transparent ps-4
           imgdiv h-100 text-center d-flex flex-column justify-content-end"
           [style.backgroundImage]="'url(' + baseUrl +'/' + thing.img_name + ')'" >

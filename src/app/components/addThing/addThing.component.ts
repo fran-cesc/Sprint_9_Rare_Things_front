@@ -12,6 +12,7 @@ import { ThingsService } from '../../services/things.service.js';
 import { AlertService } from '../../services/alert.service.js';
 import { UsersService } from '../../services/users.service.js';
 import { User } from '../../interfaces/user.interface.js';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-addThing',
@@ -30,10 +31,13 @@ export class AddThingComponent implements OnInit {
   private activeModal = inject(NgbActiveModal);
   private validatorsService = inject(ValidatorsService);
   private thingsService = inject(ThingsService);
+  private router = inject(Router);
 
   constructor() {
     this.userService.user$.subscribe((user) => {
-      this.currentUser = user;
+      if (user){
+        this.currentUser = user;
+      }
     });
   }
 
@@ -83,17 +87,18 @@ export class AddThingComponent implements OnInit {
   }
 
   addThing(): void {
-    if (this.thingForm.invalid) {
+    if (this.thingForm.invalid || !this.currentUser) {
       this.thingForm.markAllAsTouched();
       return;
     }
+      let fd = new FormData();
+      fd.append('image', this.file);
+      fd.append('user_name', this.currentUser.user_name);
+      fd.append('user_id', this.currentUser.user_id?.toString() || '');
+      fd.append('thing_title', this.thingForm.value.thing_title);
+      fd.append('location', this.thingForm.value.location);
+      fd.append('category', this.thingForm.value.category);
 
-    let fd = new FormData();
-    fd.append('image', this.file);
-    fd.append('user_name', this.currentUser!.user_name);
-    fd.append('thing_title', this.thingForm.value.thing_title);
-    fd.append('location', this.thingForm.value.location);
-    fd.append('category', this.thingForm.value.category);
 
     this.thingsService.addThing(fd).subscribe({
       next: () => {
@@ -105,6 +110,7 @@ export class AddThingComponent implements OnInit {
         }, 100);
         this.activeModal.close();
         this.thingForm.reset();
+        this.reloadComponent();
       },
       error: (error) => {
         console.error('Error:', error);
@@ -120,5 +126,12 @@ export class AddThingComponent implements OnInit {
 
   closeModal() {
     this.activeModal.close();
+  }
+
+  reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }

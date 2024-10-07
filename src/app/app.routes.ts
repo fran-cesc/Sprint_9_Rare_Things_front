@@ -27,6 +27,11 @@ export const routes: Routes = [
         path: 'thing-page/:thing_id',
         title: 'Thing',
         loadComponent: () => import('./pages/thing-page/thing-page.component'),
+      },
+      {
+        path: 'user/:user_id',
+        title: 'User',
+        loadComponent: () => import('./pages/user/user.component'),
       }
     ]
   },
