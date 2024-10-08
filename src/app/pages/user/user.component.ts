@@ -7,13 +7,13 @@ import { ThingsService } from '../../services/things.service';
 import { Thing } from '../../interfaces/things.interface';
 import { Comment } from '../../interfaces/comments.interface';
 import { environment } from '../../../environments/environment';
-import { TitleCasePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { CommentService } from '../../services/comment.service';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [ RouterLink, UpperCasePipe, TitleCasePipe],
+  imports: [ RouterLink, UpperCasePipe, TitleCasePipe, DatePipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css',
 })

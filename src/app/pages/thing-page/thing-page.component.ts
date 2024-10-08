@@ -11,7 +11,7 @@ import { VoteService } from '../../services/vote.service';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { AlertService } from '../../services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommentComponent } from '../../components/comment/comment.component';
+import { CommentComponent } from '../../components/comment/addComment.component';
 import { CommentService } from '../../services/comment.service';
 import { tap, switchMap } from 'rxjs';
 

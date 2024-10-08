@@ -12,8 +12,8 @@ import { NgClass } from '@angular/common';
   selector: 'app-comment',
   standalone: true,
   imports: [ ReactiveFormsModule, NgClass],
-  templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  templateUrl: './addComment.component.html',
+  styleUrl: './addComment.component.css'
 })
 export class CommentComponent {
 
