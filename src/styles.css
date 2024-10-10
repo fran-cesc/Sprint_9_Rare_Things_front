@@ -28,3 +28,24 @@ h1, h2, h3, h4, h5, h6 {
  background-size: cover;
  background-position: center;
 }
+
+.responsive-text{
+  font-size: 1em;
+}
+
+.responsive-icon{
+  font-size: 1.5em;
+}
+
+button:focus {
+  box-shadow: none !important;
+}
+
+/* @media (max-width: 575px) {
+  .responsive-text{
+    font-size: 1em;
+  }
+  .responsive-icon{
+    font-size: 1.5em;
+  }
+} */
