@@ -23,7 +23,7 @@ import { AlertService } from '../../services/alert.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterComponent {
-  public isEmailRegistered: boolean = false;
+  public isEmailRegistered!: boolean;
 
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
@@ -31,10 +31,10 @@ export class RegisterComponent {
   router = inject(Router);
   alertService = inject(AlertService);
 
-  userRegisterForm: FormGroup;
+  userForm: FormGroup;
 
   constructor() {
-    this.userRegisterForm = new FormGroup({
+    this.userForm = new FormGroup({
       user_name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -51,55 +51,47 @@ export class RegisterComponent {
   }
 
   public isValidField(field: string) {
-    return this.customValidators.isValidField(this.userRegisterForm, field);
+    return this.customValidators.isValidField(this.userForm, field);
   }
 
   public getFieldError(form: FormGroup, field: string) {
-    return this.customValidators.getFieldError(this.userRegisterForm, field);
+    return this.customValidators.getFieldError(this.userForm, field);
   }
 
+  public async onSubmit() {
+    try {
+      this.userForm.markAllAsTouched();
+      if (this.userForm.invalid) {
+        return;
+      }
 
-  onSubmit() {
-    const { email, password } = this.userRegisterForm.value;
+      const userMail = await this.userForm.get('email')!.value;
 
-    this.usersService.getUserByEmail(email).pipe( // Check if the user exists
-        switchMap((users: User[]) => {
-          if ((users.length === 0)) {
-            // If the user is not registered, proceed with the register
-            return this.usersService.register(this.userRegisterForm.value).pipe(
-              // After registering the user we log him in
-              concatMap(() => this.usersService.login(email, password))
-            );
-          } else {
-            // If the user is registered
-            setTimeout(() => {
-              this.alertService.showAlert({text:'Email is already registered', icon:'warning'});
-            }, 100);
-            this.userRegisterForm.patchValue({
-              email: ''
-          });
+      this.isEmailRegistered = await this.usersService.isMailRegistered(
+        userMail
+      );
 
-          return of(null); // We stop the chain returning an empty observable
-          }
-        }),
-        catchError((error) => {
-          // Error handling for the entire sequence
-          console.error('Ocurrió un error:', error);
-          return of(null); // We stop the chain in case of error
-        })
-      )
-      .subscribe((loginResponse: LoginResponse) => {
-        if (loginResponse.token) {
-          localStorage.setItem('token', loginResponse.token);
-          this.usersService.user = loginResponse.results[0];
-          this.userRegisterForm.reset();
-          setTimeout(() => {
-            this.alertService.showAlert({text:'User registered successfuly', icon:'success'});
-          }, 100);
-          this.activeModal.close();
-          this.router.navigate(['/pages/home']);
-        }
-      });
+      if (this.isEmailRegistered) {
+        alert('email is already registered');
+        this.userForm.reset();
+        this.activeModal.close();
+        return;
+      }
+
+      await this.usersService.register(this.userForm.value);
+      const response: any = await this.usersService.login(this.userForm.value);
+
+      if (!response.error) {
+        localStorage.setItem('token', response.token);
+        this.usersService.currentUser.set(response.results[0]);
+        this.userForm.reset();
+        alert('User registered successfuly');
+        this.activeModal.close();
+        this.router.navigate(['/home']);
+      }
+    } catch (error) {
+      throw error;
+    }
   }
 
   public cancel() {

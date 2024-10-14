@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, switchMap } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
@@ -23,6 +23,7 @@ export class NavbarComponent {
   public currentUser: User | undefined;
 
   public router = inject(Router);
+  public usersService = inject(UsersService);
   private modalService = inject(NgbModal);
   private userService = inject(UsersService)
 

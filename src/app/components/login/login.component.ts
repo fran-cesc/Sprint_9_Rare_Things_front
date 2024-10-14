@@ -1,28 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
-import { LoginResponse } from '../../interfaces/user.interface';
+import { User } from '../../interfaces/user.interface';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule, ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
+
   activeModal = inject(NgbActiveModal);
   usersService = inject(UsersService);
   customValidators = inject(ValidatorsService);
@@ -30,70 +28,60 @@ export class LoginComponent {
   modalService = inject(NgbModal);
   alertService = inject(AlertService);
 
-  public userLoginForm: FormGroup;
+  userForm: FormGroup;
 
-  constructor() {
-    this.userLoginForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern(this.customValidators.emailPattern),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
-    });
+  constructor(){
+    this.userForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.pattern(this.customValidators.emailPattern)]),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    })
+
   }
 
-  public isValidField(field: string) {
-    return this.customValidators.isValidField(this.userLoginForm, field);
+  public isValidField(field: string){
+    return this.customValidators.isValidField(this.userForm, field);
   }
 
-  public getFieldError(form: FormGroup, field: string) {
-    return this.customValidators.getFieldError(form, field);
+  public getFieldError(form: FormGroup, field: string){
+    return this.customValidators.getFieldError(this.userForm, field);
   }
 
-  public onSubmit() {
-    if (this.userLoginForm.invalid) {
-      return;
-    }
-
-    const { email, password } = this.userLoginForm.value;
-
-    this.usersService.login(email, password).subscribe({
-      next: (response: LoginResponse) => {
+  public async onSubmit(){
+    try{
+      if (this.userForm.invalid){
+        return;
+      }
+      const response: any = await this.usersService.login(this.userForm.value);
+      if (!response.error) {
         localStorage.setItem('token', response.token);
-        this.usersService.user = response.results[0];
-        this.userLoginForm.reset();
-        setTimeout(() => {
-          this.alertService.showAlert({
-            text: `User logged in successfuly`,
-            icon: 'success',
-          });
-        }, 100);
+        this.usersService.currentUser.set(response.results[0]);
+        this.userForm.reset();
+        alert("User logged in successfuly");
         this.activeModal.close();
-      },
-      error: (error: Error) => {
-        console.log(error);
-        setTimeout(() => {
-          this.alertService.showAlert({
-            text: 'Incorrect email or password',
-            icon: 'error',
-          });
-        }, 100);
-        this.userLoginForm.reset();
-        this.activeModal.close();
-      },
-    });
+        this.router.navigate(['pages/home']);
+      }
+    }
+    catch (error){
+      console.log(error);
+      setTimeout(() => {
+        this.alertService.showAlert({
+          text: `User logged in successfuly`,
+          icon: 'success',
+        });
+      }, 100);
+      this.userForm.reset();
+      this.activeModal.close();
+    }
   }
 
-  public cancel() {
+  public cancel(){
     this.activeModal.close();
   }
 
-  public register(event: Event) {
+  public register(event: Event){
     event.preventDefault();
     this.activeModal.close();
     this.modalService.open(RegisterComponent);
   }
+
 }

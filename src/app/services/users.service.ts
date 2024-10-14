@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../interfaces/user.interface';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { User } from '../interfaces/user';
+import { BehaviorSubject, empty, firstValueFrom } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { AlertService } from './alert.service';
@@ -35,44 +35,33 @@ export class UsersService {
     return this._user$.asObservable();
   }
 
-  public register(form: any): Observable<any> {
-    return this.http.post<User>(`${this.baseUrl}/register`, form);
-  }
-
-  public login(email: string, password: string): Observable<any> {
-    const body = { email, password };
-    return this.http.post<any>(`${this.baseUrl}/login`, body).pipe(
-      tap((response) => {
-        if (response.token) {
-          this._isUserLogged$.next(true);
-        }
-      })
+  public login(user: User) {
+    return firstValueFrom(
+      this.http.post<User>(`${this.baseUrl}/login`, user)
     );
   }
 
-  public logout() {
-    localStorage.removeItem('token');
-    this._isUserLogged$.next(false);
-    this.currentUser = undefined;
-    this._user$.next(this.currentUser);
-    setTimeout(() => {
-      this.alertService.showAlert({
-        text: 'You have been logged out',
-        icon: 'success',
-      });
-    }, 100);
-    this.router.navigate(['pages/home']);
+
+
+  async isMailRegistered(email: string) {
+    try {
+      const user: User[] = await firstValueFrom(
+      this.http.get<User[]>(`${this.baseUrl}/users/${email}`));
+
+      // get user returns either an empty array or an object with the user. Always an array:
+      let userArray: any[] = [];
+      if (Array.isArray(user) === false){
+        userArray.push(user);
+      };
+      const isRegistered = userArray.length > 0;
+      return isRegistered;
+    } catch (error) {
+      console.log(error);
+      throw new Error('Error verifying email:' + error);
+    }
   }
 
-  public getUserByEmail(email: string): Observable<any> {
-    return this.http.get<User>(`${this.baseUrl}/users/email/${email}`);
-  }
-
-  public getUserById(id: number): Observable<any> {
-    return this.http.get<User>(`${this.baseUrl}/users/id/${id}`);
-  }
-
-  isUserLogged(): Observable<boolean> {
-    return this._isUserLogged$.asObservable();
+  isLogged(): boolean {
+    return localStorage.getItem('token') ? true : false;
   }
 }
