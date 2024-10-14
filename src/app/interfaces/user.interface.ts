@@ -14,13 +14,13 @@ export interface UserLoginForm{
 export interface LoginResponse {
   token:   string;
   message: string;
-  results: Result[];
+  results: User[];
 }
 
-export interface Result {
-  user_id:   number;
-  user_name: string;
-  email:     string;
-  password:  string;
-}
+// export interface Result {
+//   user_id:   number;
+//   user_name: string;
+//   email:     string;
+//   password:  string;
+// }
 

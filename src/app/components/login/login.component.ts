@@ -6,7 +6,7 @@ import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
-import { User } from '../../interfaces/user.interface';
+import { LoginResponse, User, UserLoginForm } from '../../interfaces/user.interface';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -48,25 +48,43 @@ export class LoginComponent {
 
   public async onSubmit(){
     try{
+
       if (this.userForm.invalid){
         return;
       }
-      const response: any = await this.usersService.login(this.userForm.value);
-      if (!response.error) {
+
+      const response: LoginResponse = await this.usersService.login(this.userForm.value);
+      console.log('response: ', response);
+
+      if (response.token) {
         localStorage.setItem('token', response.token);
         this.usersService.user = (response.results[0]);
         this.userForm.reset();
-        alert("User logged in successfuly");
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: `User logged in successfuly`,
+            icon: 'success',
+          });
+        }, 100);
         this.activeModal.close();
-        this.router.navigate(['pages/home']);
+        // this.reloadComponent();
+      } else {
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: `Login error`,
+            icon: 'warning',
+          });
+        }, 100);
+        this.userForm.reset();
+        this.activeModal.close();
       }
     }
     catch (error){
       console.log(error);
       setTimeout(() => {
         this.alertService.showAlert({
-          text: `User logged in successfuly`,
-          icon: 'success',
+          text: `Login error`,
+          icon: 'warning',
         });
       }, 100);
       this.userForm.reset();
@@ -82,6 +100,13 @@ export class LoginComponent {
     event.preventDefault();
     this.activeModal.close();
     this.modalService.open(RegisterComponent);
+  }
+
+  reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    })
   }
 
 }

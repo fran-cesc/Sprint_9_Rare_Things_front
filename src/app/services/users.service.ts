@@ -4,7 +4,7 @@ import { BehaviorSubject, empty, firstValueFrom, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { AlertService } from './alert.service';
-import { User } from '../interfaces/user.interface';
+import { LoginResponse, User, UserLoginForm } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -35,9 +35,9 @@ export class UsersService {
     return this._user$.asObservable();
   }
 
-  public login(user: User) {
+  public login(user: UserLoginForm) {
     return firstValueFrom(
-      this.http.post<User>(`${this.baseUrl}/login`, user)
+      this.http.post<LoginResponse>(`${this.baseUrl}/login`, user)
     );
   }
 
@@ -66,9 +66,9 @@ export class UsersService {
     }
   }
 
-  isLogged(): boolean {
-    return localStorage.getItem('token') ? true : false;
-  }
+  // isLogged(): boolean {
+  //   return localStorage.getItem('token') ? true : false;
+  // }
 
   getUserById(id: number): Observable<User>{
     return this.http.get<User>(`${this.baseUrl}/users/${id}`);
