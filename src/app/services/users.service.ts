@@ -35,9 +35,9 @@ export class UsersService {
     return this._user$.asObservable();
   }
 
-  public login(user: UserLoginForm) {
+  public login(email: string, password: string) {
     return firstValueFrom(
-      this.http.post<LoginResponse>(`${this.baseUrl}/login`, user)
+      this.http.post<LoginResponse>(`${this.baseUrl}/login`, {email, password})
     );
   }
 

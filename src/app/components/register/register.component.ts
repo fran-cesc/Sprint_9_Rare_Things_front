@@ -63,10 +63,11 @@ export class RegisterComponent {
         return;
       }
 
-      const userMail = this.registerForm.get('email')!.value;
-      console.log('userMail: ', userMail);
+      const {email, password} = this.registerForm.value;
+
+      console.log('userMail: ', email);
       this.isEmailRegistered = await this.usersService.isMailRegistered(
-        userMail
+        email
       );
 
       if (this.isEmailRegistered) {
@@ -81,9 +82,21 @@ export class RegisterComponent {
         return;
       }
       console.log('registerForm.value: ', this.registerForm.value);
-      await this.usersService.register(this.registerForm.value);
+
+      const registerResponse = await this.usersService.register(this.registerForm.value);
+      if (registerResponse.message !== "User registered successfully"){
+        console.log('registerResponse', registerResponse);
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: `User could not be registered :(`,
+            icon: 'error',
+          });
+        }, 100);
+        return;
+      }
+
       const response: any = await this.usersService.login(
-        this.registerForm.value
+        email, password
       );
 
       if (response.token) {
@@ -96,8 +109,8 @@ export class RegisterComponent {
             icon: 'success',
           });
         }, 100);
+        this.usersService.isUserLogged$ = true;
         this.activeModal.close();
-        // this.usersService.login()
         this.router.navigate(['/pages/home']);
       }
     } catch (error) {

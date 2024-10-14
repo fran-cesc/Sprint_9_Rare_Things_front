@@ -54,13 +54,15 @@ export class LoginComponent {
   }
 
   public async onSubmit() {
+
+    const { email, password} = this.loginForm.value;
     try {
       if (this.loginForm.invalid) {
         return;
       }
 
       const response: LoginResponse = await this.usersService.login(
-        this.loginForm.value
+        email, password
       );
       console.log('response: ', response);
 
