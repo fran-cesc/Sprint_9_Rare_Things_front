@@ -1,7 +1,7 @@
 <div class="col-lmb-22 wow fadeIn" data-wow-delay="0.1s">
   <div class="bg-secondary p-5">
     <h1 class="text-uppercase mb-4">Log in</h1>
-    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" ngbAutofocus>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" ngbAutofocus>
 
       <div class="row my-2">
         <label for="email" class="col-3 col-form-label">Email:</label>
@@ -12,11 +12,11 @@
             id="email"
             formControlName="email"
             [ngClass]="{
-              'is-valid': userForm.get('email')!.valid && userForm.get('email')!.touched,
-              'is-invalid': userForm.get('email')!.invalid && userForm.get('email')!.touched
+              'is-valid': loginForm.get('email')!.valid && loginForm.get('email')!.touched,
+              'is-invalid': loginForm.get('email')!.invalid && loginForm.get('email')!.touched
             }"/>
             <div *ngIf="isValidField('email')" class="form-text text-danger">
-              {{ getFieldError(userForm, "email") }}
+              {{ getFieldError(loginForm, "email") }}
             </div>
         </div>
       </div>
@@ -30,11 +30,11 @@
             id="password"
             formControlName="password"
             [ngClass]="{
-              'is-valid': userForm.get('password')!.valid && userForm.get('password')!.touched,
-              'is-invalid': userForm.get('password')!.invalid && userForm.get('password')!.touched
+              'is-valid': loginForm.get('password')!.valid && loginForm.get('password')!.touched,
+              'is-invalid': loginForm.get('password')!.invalid && loginForm.get('password')!.touched
             }"/>
             <div *ngIf="isValidField('password')" class="form-text text-danger">
-              {{ getFieldError(userForm, "password") }}
+              {{ getFieldError(loginForm, "password") }}
             </div>
         </div>
       </div>

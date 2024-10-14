@@ -78,6 +78,10 @@ export class UsersService {
     return this._isUserLogged$.asObservable();
   }
 
+  set isUserLogged$(value: boolean){
+    this._isUserLogged$.next(value);
+  }
+
   public logout() {
     localStorage.removeItem('token');
     this._isUserLogged$.next(false);
