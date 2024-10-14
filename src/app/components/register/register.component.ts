@@ -83,7 +83,7 @@ export class RegisterComponent {
 
       if (!response.error) {
         localStorage.setItem('token', response.token);
-        this.usersService.currentUser.set(response.results[0]);
+        this.usersService.user = (response.results[0]);
         this.userForm.reset();
         alert('User registered successfuly');
         this.activeModal.close();

@@ -54,7 +54,7 @@ export class LoginComponent {
       const response: any = await this.usersService.login(this.userForm.value);
       if (!response.error) {
         localStorage.setItem('token', response.token);
-        this.usersService.currentUser.set(response.results[0]);
+        this.usersService.user = (response.results[0]);
         this.userForm.reset();
         alert("User logged in successfuly");
         this.activeModal.close();

@@ -1,10 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../interfaces/user';
-import { BehaviorSubject, empty, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, empty, firstValueFrom, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { AlertService } from './alert.service';
+import { User } from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +41,11 @@ export class UsersService {
     );
   }
 
+  public register(form: any) {
+    return firstValueFrom(
+      this.http.post<any>(`${this.baseUrl}/register`, form)
+    );
+  }
 
 
   async isMailRegistered(email: string) {
@@ -63,5 +68,27 @@ export class UsersService {
 
   isLogged(): boolean {
     return localStorage.getItem('token') ? true : false;
+  }
+
+  getUserById(id: number): Observable<User>{
+    return this.http.get<User>(`${this.baseUrl}/users/${id}`);
+  }
+
+  isUserLogged(): Observable<boolean> {
+    return this._isUserLogged$.asObservable();
+  }
+
+  public logout() {
+    localStorage.removeItem('token');
+    this._isUserLogged$.next(false);
+    this.currentUser = undefined;
+    this._user$.next(this.currentUser);
+    setTimeout(() => {
+      this.alertService.showAlert({
+        text: 'You have been logged out',
+        icon: 'success',
+      });
+    }, 100);
+    this.router.navigate(['pages/home']);
   }
 }
