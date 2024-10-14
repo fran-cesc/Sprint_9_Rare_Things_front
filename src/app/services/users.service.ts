@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, empty, firstValueFrom, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
@@ -51,18 +51,20 @@ export class UsersService {
   async isMailRegistered(email: string) {
     try {
       const user: User[] = await firstValueFrom(
-      this.http.get<User[]>(`${this.baseUrl}/users/${email}`));
-
+      this.http.get<User[]>(`${this.baseUrl}/users/email/${email}`));
+        console.log('isMailRegistered, user: ', user);
       // get user returns either an empty array or an object with the user. Always an array:
       let userArray: any[] = [];
       if (Array.isArray(user) === false){
         userArray.push(user);
       };
       const isRegistered = userArray.length > 0;
+      console.log('isRegistered: ', isRegistered);
       return isRegistered;
-    } catch (error) {
-      console.log(error);
-      throw new Error('Error verifying email:' + error);
+
+    } catch (error: any) {
+      console.log('Error in isMailRegistered: ', error);
+      return false;
     }
   }
 

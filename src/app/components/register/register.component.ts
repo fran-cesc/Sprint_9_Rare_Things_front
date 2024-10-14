@@ -10,8 +10,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../services/users.service';
 import { ValidatorsService } from '../../services/validators.service';
 import { Router } from '@angular/router';
-import { LoginResponse, User } from '../../interfaces/user.interface';
-import { switchMap, of, concatMap, catchError } from 'rxjs';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -25,16 +23,16 @@ import { AlertService } from '../../services/alert.service';
 export class RegisterComponent {
   public isEmailRegistered!: boolean;
 
-  activeModal = inject(NgbActiveModal);
-  usersService = inject(UsersService);
-  customValidators = inject(ValidatorsService);
-  router = inject(Router);
-  alertService = inject(AlertService);
+  private activeModal = inject(NgbActiveModal);
+  private usersService = inject(UsersService);
+  private customValidators = inject(ValidatorsService);
+  private router = inject(Router);
+  private alertService = inject(AlertService);
 
-  userForm: FormGroup;
+  public registerForm: FormGroup;
 
   constructor() {
-    this.userForm = new FormGroup({
+    this.registerForm = new FormGroup({
       user_name: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
@@ -51,43 +49,56 @@ export class RegisterComponent {
   }
 
   public isValidField(field: string) {
-    return this.customValidators.isValidField(this.userForm, field);
+    return this.customValidators.isValidField(this.registerForm, field);
   }
 
   public getFieldError(form: FormGroup, field: string) {
-    return this.customValidators.getFieldError(this.userForm, field);
+    return this.customValidators.getFieldError(this.registerForm, field);
   }
 
   public async onSubmit() {
     try {
-      this.userForm.markAllAsTouched();
-      if (this.userForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      if (this.registerForm.invalid) {
         return;
       }
 
-      const userMail = await this.userForm.get('email')!.value;
-
+      const userMail = this.registerForm.get('email')!.value;
+      console.log('userMail: ', userMail);
       this.isEmailRegistered = await this.usersService.isMailRegistered(
         userMail
       );
 
       if (this.isEmailRegistered) {
-        alert('email is already registered');
-        this.userForm.reset();
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: `email is already registered`,
+            icon: 'warning',
+          });
+        }, 100);
+        this.registerForm.reset();
         this.activeModal.close();
         return;
       }
+      console.log('registerForm.value: ', this.registerForm.value);
+      await this.usersService.register(this.registerForm.value);
+      const response: any = await this.usersService.login(
+        this.registerForm.value
+      );
 
-      await this.usersService.register(this.userForm.value);
-      const response: any = await this.usersService.login(this.userForm.value);
-
-      if (!response.error) {
+      if (response.token) {
         localStorage.setItem('token', response.token);
-        this.usersService.user = (response.results[0]);
-        this.userForm.reset();
-        alert('User registered successfuly');
+        this.usersService.user = response.results[0];
+        this.registerForm.reset();
+        setTimeout(() => {
+          this.alertService.showAlert({
+            text: `User registered successfuly`,
+            icon: 'success',
+          });
+        }, 100);
         this.activeModal.close();
-        this.router.navigate(['/home']);
+        // this.usersService.login()
+        this.router.navigate(['/pages/home']);
       }
     } catch (error) {
       throw error;
