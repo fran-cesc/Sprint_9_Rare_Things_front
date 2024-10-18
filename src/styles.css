@@ -39,8 +39,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .voted{
   color: white;
-  font-size: 2em;
-  animation: bounce 0.5s ease-in-out;
+  animation: fa-beat 1s 4;
+  /* animation: fa-bounce 1s 4; */
 }
 
 button:focus {

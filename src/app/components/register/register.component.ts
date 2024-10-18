@@ -65,7 +65,6 @@ export class RegisterComponent {
 
       const {email, password} = this.registerForm.value;
 
-      console.log('userMail: ', email);
       this.isEmailRegistered = await this.usersService.isMailRegistered(
         email
       );
@@ -81,11 +80,9 @@ export class RegisterComponent {
         this.activeModal.close();
         return;
       }
-      console.log('registerForm.value: ', this.registerForm.value);
 
       const registerResponse = await this.usersService.register(this.registerForm.value);
       if (registerResponse.message !== "User registered successfully"){
-        console.log('registerResponse', registerResponse);
         setTimeout(() => {
           this.alertService.showAlert({
             text: `User could not be registered :(`,

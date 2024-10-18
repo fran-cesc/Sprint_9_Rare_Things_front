@@ -52,18 +52,15 @@ export class UsersService {
     try {
       const user: User[] = await firstValueFrom(
       this.http.get<User[]>(`${this.baseUrl}/users/email/${email}`));
-        console.log('isMailRegistered, user: ', user);
       // get user returns either an empty array or an object with the user. Always an array:
       let userArray: any[] = [];
       if (Array.isArray(user) === false){
         userArray.push(user);
       };
       const isRegistered = userArray.length > 0;
-      console.log('isRegistered: ', isRegistered);
       return isRegistered;
 
     } catch (error: any) {
-      console.log('Error in isMailRegistered: ', error);
       return false;
     }
   }

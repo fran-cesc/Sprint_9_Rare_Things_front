@@ -45,8 +45,6 @@ export class CommentComponent {
 
     const { comment } = this.userCommentForm.value;
 
-    console.log(comment);
-
     this.commentService.addComment(this.thing_id, this.user_id, comment).subscribe({
       next: () => {
             this.userCommentForm.reset();
@@ -62,7 +60,6 @@ export class CommentComponent {
 
       },
       error: (error: Error) => {
-            console.log(error);
             setTimeout(() => {
               this.alertService.showAlert({
                 text: 'Could not write comment',

@@ -64,7 +64,6 @@ export class LoginComponent {
       const response: LoginResponse = await this.usersService.login(
         email, password
       );
-      console.log('response: ', response);
 
       if (response.token) {
         localStorage.setItem('token', response.token);
@@ -81,7 +80,6 @@ export class LoginComponent {
         this.reloadComponent();
       }
     } catch (error) {
-      console.log(error);
       setTimeout(() => {
         this.alertService.showAlert({
           text: `Login error`,

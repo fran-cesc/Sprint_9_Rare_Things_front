@@ -39,7 +39,6 @@ export default class UserComponent {
       switchMap( user => {
         if (user && user.user_id !== undefined){
           this.currentUser = user;
-          console.log('currentUser: ', this.currentUser);
           return this.thingsService.getAllThingsFromUser(user.user_id);
         } else {
           console.log('No user found');
@@ -48,7 +47,6 @@ export default class UserComponent {
       }),
       switchMap( things => {
         if (things){
-          console.log('things: ', things);
           this.currentThingList = things;
           return (this.currentUser && this.currentUser.user_id !== undefined) ? this.commentService.getCommentsByUser(this.currentUser.user_id) : of(null)
         } else {
@@ -59,7 +57,6 @@ export default class UserComponent {
       })
     ).subscribe((comments) => {
       if (comments){
-        console.log('comments: ', comments);
         return this.currentCommentList = comments;
 
       } else {
