@@ -30,6 +30,7 @@ export default class ThingPageComponent implements OnInit {
   public baseUrl: string = environment.BACKEND_BASE_URL;
   public hasVoted: boolean = false;
   public currentComments: Comment[] = [];
+  public votedValue: number = 0;
 
   private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
@@ -57,12 +58,21 @@ export default class ThingPageComponent implements OnInit {
     tap((thing) => {
       this.currentThing = thing;  // Update the current thing
     }),
-    switchMap((thing) => this.commentService.getCommentsByThing(thing.thing_id))  // Fetch comments for the current thing
+    switchMap((thing) => this.commentService.getCommentsByThing(thing.thing_id)),
+    tap((comments: Comment[]) => {
+      this.currentComments = comments;  // Update comments
+    }),
+    switchMap(() =>this.voteService.getVotedValue(this.currentUser?.user_id, this.currentThing!.thing_id) )
   )
-  .subscribe((comments: Comment[]) => {
-    this.currentComments = comments;  // Update comments
+  .subscribe((value) => {
+    console.log('currentUser: ', this.currentUser);
+    console.log('currentThing: ', this.currentThing);
+    console.log('value: ', value);
+    this.votedValue = value;
+    console.log('votedValue: ', this.votedValue);
   });
 }
+
   public goBack() {
     this.router.navigate(['/pages/things-list']);
   }
@@ -72,6 +82,7 @@ export default class ThingPageComponent implements OnInit {
     thing_id: number,
     value: number
   ) {
+    console.log('userVote clicked, value:', value);
     if (this.currentUser === undefined) {
       setTimeout(() => {
         this.alertService.showYouMustBeLoggedAlert({text: 'You must be logged in to vote', icon: 'warning'});
@@ -80,10 +91,15 @@ export default class ThingPageComponent implements OnInit {
     }
 
     this.voteService
-    .hasUserVoted(this.currentUser.user_id, this.currentThing!.thing_id)
+    .getVotedValue(this.currentUser.user_id, this.currentThing!.thing_id)
     .pipe(
-      tap((hasVoted) => {
-        this.hasVoted = hasVoted;
+      tap((value) => {
+        if ( value === 0){
+          this.hasVoted = false;
+        } else {
+          this.hasVoted = true;
+          this.votedValue = value;
+        }
 
         if (this.hasVoted) {
           setTimeout(() => {
@@ -95,7 +111,7 @@ export default class ThingPageComponent implements OnInit {
           throw new Error('User has already voted');
         }
       }),
-      switchMap(() => this.voteService.vote(user_id, thing_id)),    // First, register the vote
+      switchMap(() => this.voteService.vote(user_id, thing_id, value)),    // First, register the vote
       switchMap(() => this.voteService.updateVotes(thing_id, value)), // Then, update the vote count
       switchMap(() => this.thingsService.getThing(this.currentId)),   // Fetch updated thing data
       tap((updatedThing) => {
@@ -110,9 +126,10 @@ export default class ThingPageComponent implements OnInit {
     )
     .subscribe({
       error: (error) => {
-        if (error.message !== 'User has already voted') {
-          console.error('Error registering vote:', error);
-        }
+        console.log('front error: ', error);
+        // if (error.message !== 'User has already voted') {
+        //   console.error('Error registering vote:', error);
+        // }
       }
     });
 

@@ -78,6 +78,7 @@ export class LoginComponent {
           });
         }, 100);
         this.activeModal.close();
+        this.reloadComponent();
       }
     } catch (error) {
       console.log(error);
@@ -100,5 +101,12 @@ export class LoginComponent {
     event.preventDefault();
     this.activeModal.close();
     this.modalService.open(RegisterComponent);
+  }
+
+  public reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 }
