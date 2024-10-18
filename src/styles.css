@@ -37,6 +37,12 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.5em;
 }
 
+.voted{
+  color: white;
+  font-size: 2em;
+  animation: bounce 0.5s ease-in-out;
+}
+
 button:focus {
   box-shadow: none !important;
 }
