@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { User } from '../../interfaces/user.interface';
 import { UsersService } from '../../services/users.service';
-import { of, switchMap } from 'rxjs';
+import { of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { ThingsService } from '../../services/things.service';
 import { Thing } from '../../interfaces/things.interface';
 import { Comment } from '../../interfaces/comments.interface';
@@ -36,27 +37,34 @@ export default class UserComponent {
         const id = params['user_id'];
         return id ? this.userService.getUserById(id) : of(null);
       }),
-      switchMap( user => {
-        if (user && user.user_id !== undefined){
+      switchMap(user => {
+        if (user && user.user_id !== undefined) {
           this.currentUser = user;
-          return this.thingsService.getAllThingsFromUser(user.user_id);
+          return this.thingsService.getAllThingsFromUser(user.user_id)
+            .pipe(
+              catchError(error => {
+                if (error.status === 404) {
+                  console.log('No things found for this user');
+                  return of(null);
+                }
+                console.error('Error fetching things:', error);
+                return of(null);
+              })
+            );
         } else {
-          console.log('No user found');
           return of(null);
         }
       }),
       switchMap( things => {
         if (things){
           this.currentThingList = things;
-          return (this.currentUser && this.currentUser.user_id !== undefined) ? this.commentService.getCommentsByUser(this.currentUser.user_id) : of(null)
-        } else {
-          console.log('no things found for this user');
-          return of(null);
         }
+        return (this.currentUser && this.currentUser.user_id !== undefined) ? this.commentService.getCommentsByUser(this.currentUser.user_id) : of(null)
 
       })
     ).subscribe((comments) => {
       if (comments){
+
         return this.currentCommentList = comments;
 
       } else {

@@ -27,7 +27,6 @@ export default class ThingPageComponent implements OnInit {
   public currentThing?: Thing;
   public currentUser?: User;
   public baseUrl: string = environment.BACKEND_BASE_URL;
-  public hasVoted: boolean = false;
   public currentComments: Comment[] = [];
   public votedValue: number = 0;
 

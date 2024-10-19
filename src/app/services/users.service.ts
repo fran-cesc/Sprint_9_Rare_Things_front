@@ -70,7 +70,7 @@ export class UsersService {
   // }
 
   getUserById(id: number): Observable<User>{
-    return this.http.get<User>(`${this.baseUrl}/users/${id}`);
+    return this.http.get<User>(`${this.baseUrl}/users/id/${id}`);
   }
 
   isUserLogged(): Observable<boolean> {

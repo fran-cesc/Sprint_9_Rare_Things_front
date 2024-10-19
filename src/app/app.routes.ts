@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
 import PagesComponent from './pages/pages.component';
+import { userLoggedGuard } from './guards/user.guard';
 
 export const routes: Routes = [
 
@@ -32,6 +33,7 @@ export const routes: Routes = [
         path: 'user/:user_id',
         title: 'User',
         loadComponent: () => import('./pages/user/user.component'),
+        canActivate: [ userLoggedGuard ]
       }
     ]
   },

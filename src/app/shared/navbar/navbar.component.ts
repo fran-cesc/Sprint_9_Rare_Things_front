@@ -31,6 +31,7 @@ export class NavbarComponent {
     this.userService.isUserLogged().pipe(
       switchMap(isLogged => {
         this.isUserLogged = isLogged;
+        console.log('isLogged: ', isLogged);
         if (isLogged) {
           return this.userService.user$;
         } else {

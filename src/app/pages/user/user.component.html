@@ -29,13 +29,13 @@
           </a>
         } @empty {
           <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.5s" style="max-width: 600px;">
-            <p class="">No Things uploaded</p>
+            <p class="">{{ this.currentUser?.user_name | titlecase }} uploaded no things yet</p>
           </div>
           }
       </div>
 
       <div class="text-start fs-3 mb-3 mt-5 wow fadeInUp" data-wow-delay="0.9s" style="max-width: 600px;">
-        <p class="">Comments: </p>
+        <p class="">Commented: </p>
       </div>
       <div class="row py-0">
       @for (comment of currentCommentList; track comment.comment_id){
@@ -49,7 +49,7 @@
         </div>
       } @empty {
         <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.5s" style="max-width: 600px;">
-          <p class="">No Things uploaded</p>
+          <p class="">{{ this.currentUser?.user_name | titlecase}} commented no things yet</p>
         </div>
         }
 
