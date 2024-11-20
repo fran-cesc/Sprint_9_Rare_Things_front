@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { FooterComponent } from "../../shared/footer/footer.component";
-import { UsersService } from '../../services/users.service';
+import { MostvotedComponent } from "../../shared/mostvoted/mostvoted.component";
+import { MostrecentComponent } from "../../shared/mostrecent/mostrecent.component";
 
 @Component({
     selector: 'app-home',
@@ -13,11 +13,14 @@ import { UsersService } from '../../services/users.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
     CommonModule,
-    NavbarComponent,
     HttpClientModule,
-    FooterComponent
+    FooterComponent,
+    MostvotedComponent,
+    MostrecentComponent
 ]
 })
 export default class HomeComponent {
+
+
 
  }

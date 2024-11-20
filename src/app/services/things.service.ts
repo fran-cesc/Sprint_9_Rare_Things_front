@@ -35,4 +35,12 @@ export class ThingsService {
   addThing(fdThing: FormData): Observable<any> {
     return this.http.post<FormData>(`${this.baseUrl}/things`, fdThing);
   }
+
+  getMostRecentThings(): Observable<Thing[]>{
+    return this.http.get<Thing[]>(`${this.baseUrl}/things/recent`)
+  }
+
+  getMostVotedThings(): Observable<Thing[]>{
+    return this.http.get<Thing[]>(`${this.baseUrl}/things/mostvoted`)
+  }
 }

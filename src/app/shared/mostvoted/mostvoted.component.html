@@ -1,0 +1,36 @@
+<div class="container-xxl py-5">
+  <div class="container">
+      <div class="mb-5 wow fadeInLeft" data-wow-delay="0.1s" style="max-width: 600px;">
+          <h1 class="h3">Most voted Things:</h1>
+      </div>
+      <div class="row g-4">
+          @for (thing of mostVotedThings; track thing.thing_id){
+          <a class="col-lg-4 col-md-6 wow fadeIn containerdiv mb-2" data-wow-delay="0.1s"
+            [routerLink]="['/pages/thing-page', thing.thing_id]" >
+            <div class="text-light">Votes: {{thing.votes}}</div>
+
+            <div class="service-item position-relative overflow-hidden bg-transparent
+            imgdiv h-100 d-flex flex-column justify-content-end text-center"
+            [style.backgroundImage]="'url(' + baseUrl +'/' + thing.img_name + ')'" >
+              <div class="">
+                <h3 class="">{{thing.thing_title | uppercase }}</h3>
+              </div>
+              <div>
+                <p class="text-white">{{thing.category | titlecase}}</p>
+              </div>
+              <a class="btn btn-square"><i class="fa fa-plus text-primary"></i></a>
+            </div>
+          </a>
+        } @empty {
+          <p>
+             Error
+          </p>
+        }
+      </div>
+  </div>
+
+</div>
+
+
+
+

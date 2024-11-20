@@ -4,14 +4,13 @@ import { TitleCasePipe, UpperCasePipe } from '@angular/common';
 import { environment } from '../../../environments/environment';
 import { Thing } from '../../interfaces/things.interface';
 import { ThingsService } from '../../services/things.service';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
     selector: 'app-things-list',
     standalone: true,
     templateUrl: './things-list.component.html',
     styleUrl: './things-list.component.css',
-    imports: [NavbarComponent, RouterLink, UpperCasePipe, TitleCasePipe]
+    imports: [ RouterLink, UpperCasePipe, TitleCasePipe]
 })
 export default class ThingsListComponent{
 

@@ -1,4 +1,4 @@
-import { CommonModule, DatePipe, TitleCasePipe } from '@angular/common';
+import { CommonModule, DatePipe, Location, TitleCasePipe } from '@angular/common';
 import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -8,17 +8,15 @@ import { Comment } from '../../interfaces/comments.interface';
 import { ThingsService } from '../../services/things.service';
 import { UsersService } from '../../services/users.service';
 import { VoteService } from '../../services/vote.service';
-import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { AlertService } from '../../services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentComponent } from '../../components/comment/addComment.component';
 import { CommentService } from '../../services/comment.service';
 import { tap, switchMap } from 'rxjs';
-
 @Component({
   selector: 'app-thing-page',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, DatePipe, TitleCasePipe],
+  imports: [CommonModule, DatePipe, TitleCasePipe],
   templateUrl: './thing-page.component.html',
   styleUrl: './thing-page.component.css',
 })
@@ -38,6 +36,7 @@ export default class ThingPageComponent implements OnInit {
   private alertService = inject(AlertService);
   private modalService = inject(NgbModal);
   private commentService = inject(CommentService);
+  private location = inject(Location);
 
   constructor() {}
 
@@ -74,7 +73,7 @@ export default class ThingPageComponent implements OnInit {
   }
 
   public goBack() {
-    this.router.navigate(['/pages/things-list']);
+    this.location.back();
   }
 
   public userVote(
