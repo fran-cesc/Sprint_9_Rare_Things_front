@@ -15,6 +15,7 @@ import { ThingsService } from '../../services/things.service';
 export default class ThingsListComponent{
 
   public things: Thing[] = [];
+
   public baseUrl: string = environment.BACKEND_BASE_URL;
 
   private thingsService = inject(ThingsService)

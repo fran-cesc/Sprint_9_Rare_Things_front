@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { of, switchMap } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
@@ -21,7 +21,7 @@ export class NavbarComponent {
 
   public isUserLogged: boolean = false;
   public currentUser: User | undefined;
-
+  public isNavbarCollapsed = true;
   public router = inject(Router);
   public usersService = inject(UsersService);
   private modalService = inject(NgbModal);
@@ -58,4 +58,5 @@ export class NavbarComponent {
   public logout(){
     this.userService.logout();
   }
+
 }

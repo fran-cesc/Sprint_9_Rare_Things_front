@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-lg bg-secondary navbar-dark py-lg-0 px-lg-5">
   <div class="navbar-brand ms-4 ms-lg-0">
-      <a class="h1 mb-0 text-primary text-uppercase" routerLink="home">rare things</a>
+      <a class="h1 mb-0 text-primary text-uppercase" routerLink="home" (click)="isNavbarCollapsed = true">rare things</a>
   </div>
-  <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+  <button type="button" class="navbar-toggler me-4" (click)="isNavbarCollapsed = !isNavbarCollapsed">
       <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
+  <div class="collapse navbar-collapse" [class.show]="!isNavbarCollapsed" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
-          <a routerLink="home" class="nav-item nav-link" routerLinkActive="active">Home</a>
-          <a routerLink="things-list" class="nav-item nav-link" routerLinkActive="active">All Things</a>
+          <a routerLink="home" class="nav-item nav-link" routerLinkActive="active" (click)="isNavbarCollapsed = true">Home</a>
+          <a routerLink="things-list" class="nav-item nav-link" routerLinkActive="active" (click)="isNavbarCollapsed = true">All Things</a>
           <a *ngIf="isUserLogged" [routerLink]="['/pages/user', currentUser?.user_id]" class="nav-item nav-link"
-              routerLinkActive="active"  >{{ this.currentUser!.user_name }}</a>
+              routerLinkActive="active" (click)="isNavbarCollapsed = true">{{ this.currentUser!.user_name }}</a>
       </div>
       <a *ngIf="!isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
-        id="login" (click)="open($event)">Login</a>
-      <button *ngIf="isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()">Upload Rare Thing</button>
+        id="login" (click)="open($event);isNavbarCollapsed = true">Login</a>
+      <button *ngIf="isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1" (click)="addThing()" >Upload Rare Thing</button>
       <a *ngIf="isUserLogged" class="btn btn-primary rounded-0 py-1 px-3 d-lg-block m-1"
-      (click)="logout()">Logout</a>
+      (click)="logout(); isNavbarCollapsed = true" >Logout</a>
 
   </div>
 </nav>

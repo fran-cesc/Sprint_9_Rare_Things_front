@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from "../../shared/footer/footer.component";
 import { MostvotedComponent } from "../../shared/mostvoted/mostvoted.component";
 import { MostrecentComponent } from "../../shared/mostrecent/mostrecent.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -16,7 +17,8 @@ import { MostrecentComponent } from "../../shared/mostrecent/mostrecent.componen
     HttpClientModule,
     FooterComponent,
     MostvotedComponent,
-    MostrecentComponent
+    MostrecentComponent,
+    RouterLink
 ]
 })
 export default class HomeComponent {
