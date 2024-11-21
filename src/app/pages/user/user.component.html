@@ -1,7 +1,7 @@
 <div class="container-xxl py-5">
   <div class="container">
-    <h2 class="text-light">{{ currentUser?.user_name | uppercase}}</h2>
-    <h2 class="text-light fs-4">{{ currentUser?.email }}</h2>
+    <h2 class="text-white">{{ currentUser?.user_name | uppercase}}</h2>
+    <h2 class="text-white fs-4">{{ currentUser?.email }}</h2>
   </div>
 </div>
 
@@ -9,7 +9,7 @@
   <div class="container">
 
       <div class="text-start fs-3 mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-          <p class="">Things uploaded: </p>
+          <p class="text-white">Things uploaded: </p>
       </div>
       <!-- <div class="row g-4 border-top border-bottom border-secondary  border-3 p-4"> -->
       <div class="row g-4 ">
@@ -35,16 +35,16 @@
       </div>
 
       <div class="text-start fs-3 mb-3 mt-5 wow fadeInUp" data-wow-delay="0.9s" style="max-width: 600px;">
-        <p class="">Commented: </p>
+        <p class="text-white">Commented: </p>
       </div>
       <div class="row py-0">
       @for (comment of currentCommentList; track comment.comment_id){
-        <div class="wow fadeInLeft d-flex flex-column m-1 border border-secondary  border-3 rounded-pill col-10" data-wow-delay="0.1s">
+        <div class="wow fadeInLeft d-flex flex-column m-2 py-2 px-4 border border-secondary  border-3 rounded-pill col-10" data-wow-delay="0.1s">
             <div class="text-end">
               <small class="me-2 mt-1 mb-0 text-muted"><em>{{ comment.date | date:'dd/MM/YY HH:mm' }}</em></small>
             </div>
-            <div class="">
-              <p class="ms-2 mt-1 mb-1 text-white ">{{ comment.comment }}</p>
+            <div class="fs-6 fst-italic">
+              <p class="ms-2 mt-1 mb-1">{{ comment.comment }}</p>
             </div>
         </div>
       } @empty {

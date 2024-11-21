@@ -1,11 +1,11 @@
 <div class="container-xxl py-5">
   <div class="container">
-      <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+      <div class="text-center mx-auto mb-5 wow fadeInRight" data-wow-delay="0.1s" style="max-width: 600px;">
           <h1 class="text-uppercase">All Rare Things</h1>
       </div>
       <div class="row g-4">
         @for (thing of things; track thing.thing_id){
-        <a class="col-lg-4 col-md-6 wow fadeInUp containerdiv" data-wow-delay="0.1s"
+        <a class="col-lg-4 col-md-6 wow fadeInLeft containerdiv" data-wow-delay="0.1s"
           [routerLink]="['/pages/thing-page', thing.thing_id]" >
           <div class="service-item position-relative overflow-hidden bg-transparent
           imgdiv h-100 d-flex flex-column justify-content-end text-center"
@@ -20,7 +20,13 @@
           </div>
         </a>
         } @empty {
-          Could not load list of things or list is empty
+          <div class="mx-auto text-center">
+            <p class="fs-5">
+              This demo is hosted on a free server that sometimes crashes, like right now.<br>
+              Try again in a minute please 🙂.
+            </p>
+
+          </div>
         }
       </div>
   </div>
