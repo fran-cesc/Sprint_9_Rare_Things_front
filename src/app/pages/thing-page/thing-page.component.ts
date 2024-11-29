@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, Location, TitleCasePipe } from '@angular/common';
-import { ChangeDetectorRef, Component, inject, type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Thing } from '../../interfaces/things.interface';
@@ -12,7 +12,7 @@ import { AlertService } from '../../services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentComponent } from '../../components/comment/addComment.component';
 import { CommentService } from '../../services/comment.service';
-import { tap, switchMap, Observable } from 'rxjs';
+import { tap, switchMap } from 'rxjs';
 @Component({
   selector: 'app-thing-page',
   standalone: true,
@@ -27,11 +27,9 @@ export default class ThingPageComponent implements OnInit {
   public baseUrl: string = environment.BACKEND_BASE_URL;
   public currentComments: Comment[] = [];
   public votedValue: number = 0;
-  // public totalVotes: number = 0;
 
   private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
-  private router = inject(Router);
   private voteService = inject(VoteService);
   private userService = inject(UsersService);
   private alertService = inject(AlertService);
@@ -81,7 +79,8 @@ export default class ThingPageComponent implements OnInit {
     user_id: number | undefined,
     thing_id: number,
     value: number
-  ) {
+    ) {
+
     if (this.currentUser === undefined) {
       setTimeout(() => {
         this.alertService.showYouMustBeLoggedAlert({
@@ -137,12 +136,12 @@ export default class ThingPageComponent implements OnInit {
     const modalRef = this.modalService.open(CommentComponent);
     modalRef.componentInstance.thing_id = thing_id;
     modalRef.componentInstance.user_id = user_id;
+    modalRef.closed.pipe(
+      switchMap( (thing_id)=> this.commentService.getCommentsByThing(thing_id)),
+      tap((comments: Comment[]) => {
+        this.currentComments = comments;
+      })
+    ).subscribe()
   }
 
-  public reloadComponent() {
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
-  }
 }
