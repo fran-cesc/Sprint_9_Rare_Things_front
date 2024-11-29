@@ -54,8 +54,8 @@ export class CommentComponent {
                 icon: 'success',
               });
             }, 100);
-            this.activeModal.close();
-            this.reloadComponent();
+            this.activeModal.close(this.thing_id);
+            // this.reloadComponent();
 
 
       },
@@ -72,12 +72,12 @@ export class CommentComponent {
     });
   }
 
-  reloadComponent() {
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
-    });
-  }
+  // reloadComponent() {
+  //   const currentUrl = this.router.url;
+  //   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+  //     this.router.navigate([currentUrl]);
+  //   });
+  // }
 
   public cancel() {
     this.activeModal.close();
