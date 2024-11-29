@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-circle-up responsive-icon"
                     [class.voted]="votedValue === 1"></i>
               </div>
-              <div class="responsive-text text-white">{{currentThing?.votes}}</div>
+              <div class="responsive-text text-white">{{ currentThing?.votes }}</div>
               <div type="button" class="btn" style="border:none"
               (click)="userVote(currentUser?.user_id, currentThing!.thing_id, -1)">
                 <i class="fa-solid fa-circle-down voted responsive-icon"

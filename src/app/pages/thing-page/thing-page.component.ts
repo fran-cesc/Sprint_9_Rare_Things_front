@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe, Location, TitleCasePipe } from '@angular/common';
-import { Component, inject, type OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Thing } from '../../interfaces/things.interface';
@@ -12,7 +12,7 @@ import { AlertService } from '../../services/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommentComponent } from '../../components/comment/addComment.component';
 import { CommentService } from '../../services/comment.service';
-import { tap, switchMap } from 'rxjs';
+import { tap, switchMap, Observable } from 'rxjs';
 @Component({
   selector: 'app-thing-page',
   standalone: true,
@@ -27,6 +27,7 @@ export default class ThingPageComponent implements OnInit {
   public baseUrl: string = environment.BACKEND_BASE_URL;
   public currentComments: Comment[] = [];
   public votedValue: number = 0;
+  // public totalVotes: number = 0;
 
   private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
@@ -61,14 +62,14 @@ export default class ThingPageComponent implements OnInit {
           this.currentComments = comments; // Update comments
         }),
         switchMap(() =>
-          this.voteService.getVotedValue(
+          this.voteService.hasUserVotedThisThing(
             this.currentUser?.user_id,
             this.currentThing!.thing_id
           )
         )
       )
-      .subscribe((value) => {
-        this.votedValue = value;
+      .subscribe((votedValue) => {
+        this.votedValue = votedValue;
       });
   }
 
@@ -105,21 +106,21 @@ export default class ThingPageComponent implements OnInit {
       .vote(user_id, thing_id, value)
       .pipe(
         switchMap(() => this.voteService.updateVotes(thing_id, value)),
-        tap( () => {
+        tap( (updatedVotesThing) => {
+          this.currentThing = updatedVotesThing;
           setTimeout(() => {
             this.alertService.showAlert({
               text: 'Thank you for voting!',
               icon: 'success',
             });
           }, 100);
-          this.reloadComponent();
-        })
+        }),
+      switchMap( ()=> this.voteService.hasUserVotedThisThing(user_id, thing_id)),
+      tap( (value)=>{
+        this.votedValue = value;
+      }
       )
-      .subscribe({
-        error: (error) => {
-          console.log('error: ', error);
-        },
-      });
+      ).subscribe( ()=>{});
   }
 
   comment(thing_id: number, user_id: number | undefined) {
