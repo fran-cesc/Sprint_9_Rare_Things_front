@@ -26,7 +26,10 @@ export default class ThingPageComponent implements OnInit {
   public currentUser?: User;
   public baseUrl: string = environment.BACKEND_BASE_URL;
   public currentComments: Comment[] = [];
-  public votedValue: number = 0;
+  public initialVotedValue: number = 0;
+  public currentVotedValue: number = 0;
+  public initialTotalVotes: number = 0;
+  public currentTotalVotes: number = 0;
 
   private activatedRoute = inject(ActivatedRoute);
   private thingsService = inject(ThingsService);
@@ -52,6 +55,8 @@ export default class ThingPageComponent implements OnInit {
         switchMap((params) => this.thingsService.getThing(+params['thing_id'])),
         tap((thing) => {
           this.currentThing = thing; // Update the current thing
+          this.initialTotalVotes = thing.votes;
+          this.currentTotalVotes = thing.votes;
         }),
         switchMap((thing) =>
           this.commentService.getCommentsByThing(thing.thing_id)
@@ -67,7 +72,8 @@ export default class ThingPageComponent implements OnInit {
         )
       )
       .subscribe((votedValue) => {
-        this.votedValue = votedValue;
+        this.initialVotedValue = votedValue;
+        this.currentVotedValue = votedValue;
       });
   }
 
@@ -91,35 +97,41 @@ export default class ThingPageComponent implements OnInit {
       return;
     }
 
-    if (this.votedValue !== 0) {
-      setTimeout(() => {
-        this.alertService.showAlert({
-          text: 'You have already voted for this Thing',
-          icon: 'warning',
-        });
-      }, 100);
-      return;
-    }
+    // if (this.votedValue !== 0) {
+    //   setTimeout(() => {
+    //     this.alertService.showAlert({
+    //       text: 'You have already voted for this Thing',
+    //       icon: 'warning',
+    //     });
+    //   }, 100);
+    //   return;
+    // }
 
     this.voteService
       .vote(user_id, thing_id, value)
       .pipe(
-        switchMap(() => this.voteService.updateVotes(thing_id, value)),
-        tap( (updatedVotesThing) => {
-          this.currentThing = updatedVotesThing;
-          setTimeout(() => {
-            this.alertService.showAlert({
-              text: 'Thank you for voting!',
-              icon: 'success',
-            });
-          }, 100);
-        }),
-      switchMap( ()=> this.voteService.hasUserVotedThisThing(user_id, thing_id)),
-      tap( (value)=>{
-        this.votedValue = value;
-      }
-      )
-      ).subscribe( ()=>{});
+        tap( () => {
+          this.currentVotedValue = value;
+          if (this.initialVotedValue === 0){
+            this.currentTotalVotes = this.initialTotalVotes + this.currentVotedValue;
+            this.initialVotedValue = this.currentVotedValue;
+            return;
+          }
+          else if (this.initialVotedValue === this.currentVotedValue){
+              setTimeout(() => {
+                this.alertService.showAlert({
+                  text: 'You have already voted for this Thing',
+                  icon: 'warning',
+                });
+              }, 100);
+              return;
+          } else {
+            this.currentTotalVotes = this.initialTotalVotes + this.currentVotedValue;
+            this.initialVotedValue = this.currentVotedValue;
+          }
+          }),
+        switchMap(() => this.voteService.updateVotes(thing_id, this.currentTotalVotes))
+      ).subscribe( (thing)=>{ console.log("thing votes updated: ", thing)});
   }
 
   comment(thing_id: number, user_id: number | undefined) {
@@ -132,7 +144,6 @@ export default class ThingPageComponent implements OnInit {
       }, 100);
       return;
     }
-
     const modalRef = this.modalService.open(CommentComponent);
     modalRef.componentInstance.thing_id = thing_id;
     modalRef.componentInstance.user_id = user_id;
