@@ -5,7 +5,7 @@
       </div>
       <div class="row g-4">
           @for (thing of mostVotedThings; track thing.thing_id){
-          <a class="col-lg-4 col-md-6 wow fadeIn containerdiv mb-2" data-wow-delay="0.2s"
+          <a class="col-lg-4 col-md-6 wow fadeIn containerdiv mb-2" data-wow-delay="0.1s"
             [routerLink]="['/pages/thing-page', thing.thing_id]" >
             <div class="text-light">Votes: {{thing.votes}}</div>
 
