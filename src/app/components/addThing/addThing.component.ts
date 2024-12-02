@@ -108,8 +108,8 @@ export class AddThingComponent implements OnInit {
             icon: 'success',
           });
         }, 100);
-        this.activeModal.close();
         this.thingForm.reset();
+        this.activeModal.close();
         this.reloadComponent();
       },
       error: (error) => {

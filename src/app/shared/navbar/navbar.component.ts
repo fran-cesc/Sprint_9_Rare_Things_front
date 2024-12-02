@@ -44,6 +44,10 @@ export class NavbarComponent {
 
   addThing(){
     const modalRef = this.modalService.open(AddThingComponent);
+    modalRef.closed.subscribe( ()=> {
+      this.router.navigate(['/pages/home']);
+      window.location.reload();
+    });
   }
 
   open(event: Event){

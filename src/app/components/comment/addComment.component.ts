@@ -55,7 +55,6 @@ export class CommentComponent {
               });
             }, 100);
             this.activeModal.close(this.thing_id);
-            // this.reloadComponent();
 
 
       },
@@ -71,13 +70,6 @@ export class CommentComponent {
       },
     });
   }
-
-  // reloadComponent() {
-  //   const currentUrl = this.router.url;
-  //   this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-  //     this.router.navigate([currentUrl]);
-  //   });
-  // }
 
   public cancel() {
     this.activeModal.close();

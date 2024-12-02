@@ -97,16 +97,6 @@ export default class ThingPageComponent implements OnInit {
       return;
     }
 
-    // if (this.votedValue !== 0) {
-    //   setTimeout(() => {
-    //     this.alertService.showAlert({
-    //       text: 'You have already voted for this Thing',
-    //       icon: 'warning',
-    //     });
-    //   }, 100);
-    //   return;
-    // }
-
     this.voteService
       .vote(user_id, thing_id, value)
       .pipe(
