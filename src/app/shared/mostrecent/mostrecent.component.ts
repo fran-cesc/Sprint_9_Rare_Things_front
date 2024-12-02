@@ -22,6 +22,10 @@ export class MostrecentComponent {
   constructor(){}
 
   ngOnInit(): void{
+    this.getMostRecentThings();
+  }
+
+  getMostRecentThings(){
     this.thingsService.getMostRecentThings()
     .subscribe({
       next: (things) => {
@@ -33,4 +37,6 @@ export class MostrecentComponent {
       }
     });
   }
+
+
 }

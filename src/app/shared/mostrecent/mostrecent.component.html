@@ -1,11 +1,11 @@
 <div class="container-xxl py-5 mb-5">
   <div class="container">
-      <div class="mb-5 wow fadeInLeft" data-wow-delay="0.1s" style="max-width: 600px;">
+      <div class="mb-5 wow flipInX" data-wow-delay="0.1s" style="max-width: 600px;">
           <h1 class="h3">Most recent Things uploaded:</h1>
       </div>
       <div class="row g-4">
           @for (thing of mostRecentThings; track thing.thing_id){
-          <a class="col-lg-4 col-md-6 wow fadeIn containerdiv mb-2" data-wow-delay="0.1s"
+          <a class="col-lg-4 col-md-6 wow fadeIn containerdiv mb-2" data-wow-delay="0.2s"
             [routerLink]="['/pages/thing-page', thing.thing_id]" >
             <div class="text-light">{{thing.date | date:'MMM d, y - HH:mm'}}</div>
 
