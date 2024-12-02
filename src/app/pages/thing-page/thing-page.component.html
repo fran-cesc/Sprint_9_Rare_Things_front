@@ -43,13 +43,13 @@
           <div class="w-100 bg-secondary rounded-3  d-flex flex-column">
             <div class="comment-data d-flex justify-content-start m-2">
               <div class="">
-                   <small class="text-muted m-2"><em>Posted by: {{ comment.user_name | titlecase }}</em></small>
+                   <small class="text-muted m-2"><em>Comment by: {{ comment.user_name | titlecase }}</em></small>
               </div>
               <div class="">
                 <small class="text-muted m-4"><em>{{ comment.date | date:'dd/MM/YY HH:mm' }}</em></small>
               </div>
             </div>
-            <small class="m-1 p-2 responsive-text">{{ comment.comment }}</small>
+            <small class="m-2 p-2 responsive-text">{{ comment.comment }}</small>
           </div>
         </div>
       </div>

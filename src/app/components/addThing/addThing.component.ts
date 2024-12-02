@@ -131,7 +131,7 @@ export class AddThingComponent implements OnInit {
   reloadComponent() {
     const currentUrl = this.router.url;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentUrl]);
+      this.router.navigate(['currentUrl']);
     });
   }
 }
