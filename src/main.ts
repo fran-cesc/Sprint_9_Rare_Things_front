@@ -8,6 +8,4 @@ bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
 
 
-  // TODO remove css styles not used?
-  // TODO change css classes names used?
 
