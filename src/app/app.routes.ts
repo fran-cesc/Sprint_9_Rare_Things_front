@@ -2,9 +2,15 @@ import { Routes } from '@angular/router';
 import { NopagefoundComponent } from './pages/nopagefound/nopagefound.component';
 import PagesComponent from './pages/pages.component';
 import { userLoggedGuard } from './guards/user.guard';
+import { ForbiddenPageComponent } from './pages/forbidden-page/forbidden-page.component';
 
 export const routes: Routes = [
 
+  {
+    path:'forbidden',
+    title: 'Forbidden Page',
+    component: ForbiddenPageComponent
+  },
   {
     path: 'pages',
     component: PagesComponent,

@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const userInterceptor: HttpInterceptorFn = (req, next) => {
-  const protectedUrls = ['pages/user/:user_id'];
+  const protectedUrls = ['/things/user', '/comments/user'];
   const isProtectedUrl = protectedUrls.some( url => req.url.includes(url));
   const token = localStorage.getItem('token');
 
