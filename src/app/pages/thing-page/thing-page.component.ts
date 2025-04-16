@@ -81,7 +81,11 @@ export default class ThingPageComponent implements OnInit {
     this.location.back();
   }
 
-  public userVote(user_id: number | undefined, thing_id: number, value: number) {
+  public userVote(
+    user_id: number | undefined,
+    thing_id: number,
+    value: number
+  ) {
     if (this.currentUser === undefined) {
       setTimeout(() => {
         this.alertService.showYouMustBeLoggedAlert({
@@ -92,32 +96,45 @@ export default class ThingPageComponent implements OnInit {
       return;
     }
 
-    if (this.initialVotedValue === value) {
+    // Prevent user from voting the same way again
+    if (this.currentVotedValue === value) {
       setTimeout(() => {
         this.alertService.showAlert({
-          text: 'You have already voted for this Thing',
+          text: 'You have already voted this way',
           icon: 'warning',
         });
       }, 100);
       return;
     }
 
-    const voteChange = value - this.initialVotedValue; // +1, -1, +2 o -2
-
     this.voteService
       .vote(user_id, thing_id, value)
       .pipe(
-        tap(() => {
+        switchMap(() => this.thingsService.getThing(thing_id)), // update thing from backend
+        tap((updatedThing) => {
+          this.currentThing = updatedThing;
+          this.currentTotalVotes = updatedThing.votes;
+          this.initialTotalVotes = updatedThing.votes;
           this.currentVotedValue = value;
           this.initialVotedValue = value;
-          this.currentTotalVotes += voteChange;
-        }),
-        switchMap(() => this.voteService.updateVotes(thing_id, this.currentTotalVotes))
+          console.log("currentVotedValue=", this.currentVotedValue);
+          console.log("initialVotedValue=", this.initialVotedValue);
+          console.log("initialTotalVotes=", this.initialTotalVotes);
+          console.log("currentTotalVotes=", this.currentTotalVotes);
+        })
       )
-      .subscribe((thing) => {
-        console.log("thing votes updated: ", thing);
+      .subscribe({
+        next: () => console.log('Vote registered and thing updated'),
+        error: (err) => {
+          console.error('Error voting:', err);
+          this.alertService.showAlert({
+            text: err.error?.error || 'There was an error voting',
+            icon: 'error',
+          });
+        },
       });
   }
+
 
 
   comment(thing_id: number, user_id: number | undefined) {
