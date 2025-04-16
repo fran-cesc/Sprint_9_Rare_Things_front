@@ -81,12 +81,7 @@ export default class ThingPageComponent implements OnInit {
     this.location.back();
   }
 
-  public userVote(
-    user_id: number | undefined,
-    thing_id: number,
-    value: number
-    ) {
-
+  public userVote(user_id: number | undefined, thing_id: number, value: number) {
     if (this.currentUser === undefined) {
       setTimeout(() => {
         this.alertService.showYouMustBeLoggedAlert({
@@ -97,32 +92,33 @@ export default class ThingPageComponent implements OnInit {
       return;
     }
 
+    if (this.initialVotedValue === value) {
+      setTimeout(() => {
+        this.alertService.showAlert({
+          text: 'You have already voted for this Thing',
+          icon: 'warning',
+        });
+      }, 100);
+      return;
+    }
+
+    const voteChange = value - this.initialVotedValue; // +1, -1, +2 o -2
+
     this.voteService
       .vote(user_id, thing_id, value)
       .pipe(
-        tap( () => {
+        tap(() => {
           this.currentVotedValue = value;
-          if (this.initialVotedValue === 0){
-            this.currentTotalVotes = this.initialTotalVotes + this.currentVotedValue;
-            this.initialVotedValue = this.currentVotedValue;
-            return;
-          }
-          else if (this.initialVotedValue === this.currentVotedValue){
-              setTimeout(() => {
-                this.alertService.showAlert({
-                  text: 'You have already voted for this Thing',
-                  icon: 'warning',
-                });
-              }, 100);
-              return;
-          } else {
-            this.currentTotalVotes = this.initialTotalVotes + this.currentVotedValue;
-            this.initialVotedValue = this.currentVotedValue;
-          }
-          }),
+          this.initialVotedValue = value;
+          this.currentTotalVotes += voteChange;
+        }),
         switchMap(() => this.voteService.updateVotes(thing_id, this.currentTotalVotes))
-      ).subscribe( (thing)=>{ console.log("thing votes updated: ", thing)});
+      )
+      .subscribe((thing) => {
+        console.log("thing votes updated: ", thing);
+      });
   }
+
 
   comment(thing_id: number, user_id: number | undefined) {
     if (!this.currentUser) {
